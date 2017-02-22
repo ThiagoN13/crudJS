@@ -10,12 +10,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="fruta in fruits">
+    <tr ng-repeat="fruta in fruits" >
         <td>{{fruta.name}}</td>
         <td>{{fruta.quantidade}}</td>
         <td>{{fruta.preco}}</td>
         <td> <a style="color: gray;" href="#!/edit/{{fruta.id}}"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
-        <td> <a style="color: red;" href="#" > <i class="glyphicon glyphicon-remove"></i>   </a>
+        <td> <a style="color: red;" href="#!/list/{{fruta.id}}" > <i class="glyphicon glyphicon-remove"></i>   </a>
         </td>
     </tr>
   </tbody>

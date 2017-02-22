@@ -14,6 +14,9 @@ app.config(['$routeProvider',function($routeProvider){
 	when('/new',{
     controller:'controlFruit',
     templateUrl:'form.html'}).
+  when('/list/:id',{
+    controller:'removeFruit',
+    templateUrl:'list.html'}).
 	otherwise({
     redirectTo:'/'
   });
@@ -22,15 +25,12 @@ app.config(['$routeProvider',function($routeProvider){
 
 
 app.controller("listController", function($scope, $http){
-  $scope.busca = function() {
     $http.get("../listFruits.json")
     .then(function(result){
       $scope.fruits = result.data.fruits;
     }, function(error){
       console.log(error)
     });
-  }
-  $scope.busca();
   });
 
 
@@ -44,6 +44,7 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $http) 
         console.log($scope.fruta.preco);
       }
     }
+
     else{
         $scope.title = "Editar Fruta";
         //$scope.editar = function(){
@@ -51,21 +52,33 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $http) 
         .then(function(result){
           angular.forEach(result.data.fruits, function(data){
             if(data.id == $routeParams.id){
-                console.log("achou eu acho");
-                console.log(data.name);
-                console.log(data.quantidade);
-                console.log(data.preco);
+                data.quantidade = parseInt(data.quantidade);
+                $scope.fruta = {nome:data.name, quantidade:data.quantidade, preco:data.preco}
               }
         });
         }, function(error){
             console.log(error)
         });
-
     }
 
-  console.log("run");
 	$scope.save = function(){
 		///
 		$location.path('/');
 	}
+});
+
+app.controller('removeFruit', function($scope, $location, $routeParams, $http){
+  $http.get("../listFruits.json")
+  .then(function(result){
+    angular.forEach(result.data.fruits, function(data){
+      if(data.id == $routeParams.id){
+          console.log(data.name);
+          console.log(data.quantidade);
+          console.log(data.preco);
+          $location.path('/list');
+        }
+      });
+  }, function(error){
+      console.log(error)
+  });
 });

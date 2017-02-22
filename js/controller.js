@@ -75,6 +75,7 @@ app.controller('removeFruit', function($scope, $location, $routeParams, $http){
           console.log(data.name);
           console.log(data.quantidade);
           console.log(data.preco);
+          console.log("apagar");
           $location.path('/list');
         }
       });

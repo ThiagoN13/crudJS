@@ -5,18 +5,18 @@ app.config(['$routeProvider',function($routeProvider){
 	$routeProvider.
 	when('/list',{
     controller:'listController',
-    templateUrl:'list.html'
+    templateUrl:'./list.html'
   }).
 	when('/edit/:id',{
     controller:'controlFruit',
-    templateUrl:'form.html'
+    templateUrl:'./form.html'
   }).
 	when('/new',{
     controller:'controlFruit',
-    templateUrl:'form.html'}).
+    templateUrl:'./form.html'}).
   when('/list/:id',{
     controller:'removeFruit',
-    templateUrl:'list.html'}).
+    templateUrl:'./list.html'}).
 	otherwise({
     redirectTo:'/'
   });

@@ -1,0 +1,24 @@
+{
+  "name": "crudjs",
+  "version": "1.0.0",
+  "description": "Crud feito em nodeJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThiagoN13/crudJS.git"
+  },
+  "author": "Thiago",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThiagoN13/crudJS/issues"
+  },
+  "homepage": "https://github.com/ThiagoN13/crudJS#readme",
+  "dependencies": {
+    "ejs": "^0.8.8",
+    "express": "^4.8.8",
+    "express-load": "^1.1.15"
+  }
+}

@@ -6,7 +6,7 @@ module.exports = function(){
   // setando a porta do servidor
   app.set("port", 4000);
 
-  app.use(express.static("./public"));
+  app.use(express.static("./"));
 
   load('models', {cwd: 'app'})
   .then('controllers')

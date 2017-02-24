@@ -1,0 +1,22 @@
+<h1>Estoque</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Nome da Fruta</th>
+      <th class="text-center">Preço</th>
+      <th class="text-center">Quantidade</th>
+      <th class="text-center">Editar</th>
+      <th class="text-center">Excluir</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="fruta in fruits" >
+        <td>{{fruta.name}}</td>
+        <td class="text-center">{{fruta.quantidade}}</td>
+        <td class="text-center">{{fruta.preco}}</td>
+        <td class="text-center"> <a style="color: gray;" href="#!/edit/{{fruta.id}}"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
+        <td class="text-center"> <a style="color: red;" href="#!/list/{{fruta.id}}" > <i class="glyphicon glyphicon-remove"></i>   </a>
+        </td>
+    </tr>
+  </tbody>
+</table>

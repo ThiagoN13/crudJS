@@ -11,11 +11,11 @@
   </thead>
   <tbody>
     <tr ng-repeat="fruta in fruits" >
-        <td>{{fruta.name}}</td>
+        <td>{{fruta.nome}}</td>
         <td class="text-center">{{fruta.quantidade}}</td>
         <td class="text-center">{{fruta.preco}}</td>
-        <td class="text-center"> <a style="color: gray;" href="#!/edit/{{fruta.id}}"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
-        <td class="text-center"> <a style="color: red;" href="#!/list/{{fruta.id}}" > <i class="glyphicon glyphicon-remove"></i>   </a>
+        <td class="text-center"> <a style="color: gray;" href="#!/edit/{{fruta._id}}" > <i class="glyphicon glyphicon-pencil"></i> </a> </td>
+        <td class="text-center"> <a style="color: red;" href="#!/list/{{fruta._id}}"> <i class="glyphicon glyphicon-remove"></i>   </a>
         </td>
     </tr>
   </tbody>

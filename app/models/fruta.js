@@ -17,7 +17,7 @@ module.exports = function(){
       type: Number,
       required: true
     }
-  });
-  
-  return mongoose.model("fruteira", fruteiraDb);
+  }, {collection:"fruteira"});
+
+  return mongoose.model('fruteira', fruteiraDb);
 }

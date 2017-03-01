@@ -29,70 +29,60 @@ app.config(['$routeProvider',function($routeProvider){
 app.controller("listController", function($scope, $http, $resource){
     var Fruta = $resource('/fruteiras/list');
     Fruta.query(function(res) {
-
+      $scope.fruits = res;
     });
-
-    // $http.get("/fruteiras/list")
-    // .then(function(result){
-    //   $scope.fruits = result.data.fruits;
-    // }, function(error){
-    //   console.log(error)
-    // });
   });
 
 
-app.controller('controlFruit', function ($scope,$location, $routeParams, $http) {
-if($routeParams.id === undefined){
-  $scope.title = "Nova Fruta";  
-}
+app.controller('controlFruit', function ($scope,$location, $routeParams, $resource) {
+  if($routeParams.id == undefined){
+    $scope.title = "Nova Fruta";
+  }
+  else {
+    $scope.title = "Editar Fruta";
+    var Fruta = $resource('/fruteiras/list:id');
+    Fruta.query(function(res) {
+      angular.forEach(res, function(value){
+          if(value._id == $routeParams.id){
+            $scope.fruta = {nome : value.nome, quantidade:value.quantidade, preco:value.preco};
+          }
+      });
+    });
+  }
 
   $scope.submit = function(){
-    if($routeParams.id === undefined){
+    var Fruta = $resource('/fruteiras/inserir');
+    if(!$routeParams._id){
       console.log($scope.fruta.nome);
       console.log($scope.fruta.quantidade);
       console.log($scope.fruta.preco);
-      Fruta.query(function(res) {
-
-      });
-  }
+      fruta = new Fruta();
+      fruta.nome = $scope.fruta.nome;
+      fruta.quantidade = $scope.fruta.quantidade;
+      fruta.preco = $scope.fruta.preco;
+      fruta.$save();
+    }
     else{
-      $scope.title = "Editar Fruta";
-      //$scope.editar = function(){
-      $http.get("../listFruits.json")
-      .then(function(result){
-        angular.forEach(result.data.fruits, function(data){
-          if(data.id == $routeParams.id){
-              data.quantidade = parseInt(data.quantidade);
-              $scope.fruta = {nome:data.name, quantidade:data.quantidade, preco:data.preco}
-          }
-        });
-      }, function(error){
-          console.log(error)
-        });
-      }
-
+      var FrutaRes = $resource('/fruteiras/update')
+      var editar = new FrutaRes();
+      console.log("editar")
+      editar._id = $routeParams.id
+      editar.nome = $scope.fruta.nome;
+      editar.quantidade = $scope.fruta.quantidade;
+      editar.preco = $scope.fruta.preco;
+      editar.$save();
+    }
 
   }
-
-	$scope.save = function(){
-		///
-		$location.path('/');
-	}
 });
 
-app.controller('removeFruit', function($scope, $location, $routeParams, $http){
-  $http.get("../listFruits.json")
-  .then(function(result){
-    angular.forEach(result.data.fruits, function(data){
-      if(data.id == $routeParams.id){
-          console.log(data.name);
-          console.log(data.quantidade);
-          console.log(data.preco);
-          console.log("apagar");
-          $location.path('/list');
-        }
-      });
-  }, function(error){
-      console.log(error)
+app.controller('removeFruit', function($scope, $location, $routeParams, $resource){
+  console.log($routeParams.id);
+  var Fruta = $resource('/fruteiras/remove');
+  var remover = new Fruta();
+  remover._id = $routeParams.id;
+  remover.$save().then(function(res){
+    $location.path('/list')
   });
+
 });

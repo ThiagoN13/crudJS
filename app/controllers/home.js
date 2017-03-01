@@ -1,99 +1,63 @@
 module.exports = function(app){
-  var Fruteira = app.models.fruta;
+  var fruteira = app.models.fruta;
 
   var controller = {};
 
-  controller.editarFruta = function(req, res){
-    var fruta = req.body;
-    if(_id) {
-      Fruteira.update({"_id": fruta.id},{$set: {"nome" : fruta.nome, "quantidade":fruta.quantidade, "preco":fruta.preco}}).exec()
-      .then(
-      function(fruteira) {
-        res.json(fruteira);
-      },
-      function(erro) {
-        console.error(erro)
-        res.status(500).json(erro);
-        }
-    );
-    } else {
-      Fruteira.create(req.body)
-      .then(
-        function(contato) {
-            res.status(201).json(fruteira);
-        },
-        function(erro) {
-          console.log(erro);
-        }
-      );
-    };
-  };
-
   controller.inserirFruta = function(req, res){
     var fruta = req.body;
-    if(_id) {
-      Fruteira.insert({"nome":fruta.nome, "quantidade":fruta.quantidade, "preco":fruta.preco}).exec()
-      .then(
-      function(fruteira) {
-        res.json(fruteira);
-      },
-      function(erro) {
-        console.error(erro)
-        res.status(500).json(erro);
-        }
-    );
-    } else {
-      Fruteira.create(req.body)
-      .then(
-        function(contato) {
-            res.status(201).json(fruteira);
-        },
-        function(erro) {
-          console.log(erro);
-        }
-      );
-    };
+    console.log("servidor");
+    console.log(fruta);
+    var frut = new fruteira({"nome":fruta.nome, "quantidade":fruta.quantidade, "preco":fruta.preco})
+    frut.save().then( function(result){
+      console.log(result);
+    })
   };
 
   controller.obterFruta = function(req, res){
     var _id = req.params.id;
-    Fruteira.findById(_id).exec().then(
-      function(fruteira) {
-        if (fruteira) {
-          res.json(fruteira)
+    fruteira.findOne({"_id" : _id}).exec( function(erro, frutas) {
+        if (frutas) {
+          res.json(frutas)
         }
-      },
-      function(erro) {
-        console.log(erro);
-        res.status(404).json(erro)
       }
     );
   };
 
   controller.listarFruta = function(req, res){
-    Fruteira.find().exec()
-    .then( function(fruteiras) {
-      console.log(fruteiras);
-        res.json(fruteiras);
-      },
-      function(erro) {
-          console.error(erro)
-          res.status(500).json(erro);
-        }
-    );
-
+    fruteira.find({}).exec( function(erro, doc) {
+        res.json(doc);
+      });
   };
 
   controller.removerFruta = function(req, res){
-    var _id = req.params.id;
-    Fruteira.remove({"_id": _id}).exec()
-    .then(function(fruteira){
+    console.log(req.body._id);
+    var _id = req.body._id;
+    fruteira.remove({"_id": _id}).exec( function(erro) {
       res.end();
-    }, function (erro) {
-        return console.error(error);
     });
-
   };
+
+  controller.editarFruta = function(req, res){
+    var _id = req.body._id;
+    console.log(_id)
+    var frutaReq = req.body
+    fruteira.findOne({"_id" : _id}).exec( function(erro, fruta) {
+        if (fruta) {
+          fruta.nome = frutaReq.nome;
+          fruta.quantidade = frutaReq.quantidade;
+          fruta.preco = fruta.preco;
+          fruta.save(function(erro){
+            if (erro) {
+              return new Error(erro)
+            }
+            res.json(fruta)
+          });
+        }
+      }
+    );
+  }
+
+
 
   return controller;
 }

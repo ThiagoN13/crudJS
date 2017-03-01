@@ -1,18 +1,31 @@
-<div class="custom col-sm-4">
-  <h1>{{title}}</h1>
-    <form name="myForm" class="form-group" ng-submit="submit();" ng-controller="controlFruit">
-      <div class="form-group">
-        <label for="fruta">Nome da fruta</label>
-        <input type="text" name="fruta" ng-model="fruta.nome" id="Fruta" class="form-control" required/>
+<div class="modal fade" id="modal" data-backdrop="static" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="#!/list" class="close" data-dismiss="modal" ng-click="location.path('/list/');">&times;</a>
+        <h1 class="modal-title">{{title}}</h1>
       </div>
-      <div class="form-group">
-        <label for="quantidade">Quantidade</label>
-        <input type="number" name="quantidade" ng-model="fruta.quantidade" id="quantidade" required class="form-control" min="1" max="100" required ng-disabled="myForm.fruta.$invalid"/>
+      <div class="modal-body">
+        <form name="myForm" class="form-group" ng-submit="submit();" ng-controller="controlFruit">
+          <div class="form-group">
+            <label for="fruta">Nome da fruta</label>
+            <input type="text" name="fruta" ng-model="fruta.nome" id="Fruta" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" name="quantidade" ng-model="fruta.quantidade" id="quantidade" required class="form-control" min="1" max="100"
+             required ng-disabled="myForm.fruta.$invalid" pattern="[0-9,]+"/>
+          </div>
+          <div class="form-group">
+            <label for="preco">Preco</label>
+            <input type="text" name="preco" ng-model="fruta.preco" id="preco" class="form-control" required ng-disabled="myForm.quantidade.$invalid"/>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Enviar" class="btn btn-primary pull-right" ng-disabled="myForm.$invalid"/>
+          </div>
+        </form>
+            <div class="alert-danger" ng->
       </div>
-      <div class="form-group">
-        <label for="preco">Preco</label>
-        <input type="text" name="preco" ng-model="fruta.preco" id="preco" class="form-control" required ng-disabled="myForm.quantidade.$invalid"/>
-      </div>
-      <input type="submit" value="Enviar" class="btn btn-success pull-right" ng-disabled="myForm.$invalid"/>
-    </form>
+    </div>
+  </div>
 </div>

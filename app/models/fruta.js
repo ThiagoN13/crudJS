@@ -16,6 +16,10 @@ module.exports = function(){
     preco:{
       type: Number,
       required: true
+    },
+    ativo:{
+      type: Boolean,
+      default: true
     }
   }, {collection:"fruteira"});
 

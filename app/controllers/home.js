@@ -14,7 +14,7 @@ module.exports = function(app){
   };
 
   controller.obterFruta = function(req, res){
-    var _id = req.params.id;
+    var _id = req.params._id;
     fruteira.findOne({"_id" : _id}).exec( function(erro, frutas) {
         if (frutas) {
           res.json(frutas)
@@ -24,24 +24,36 @@ module.exports = function(app){
   };
 
   controller.listarFruta = function(req, res){
-    fruteira.find({}).exec( function(erro, doc) {
+    fruteira.find({}).where('ativo', true).exec( function(erro, doc) {
         res.json(doc);
       });
   };
 
   controller.removerFruta = function(req, res){
-    console.log(req.body._id);
-    var _id = req.body._id;
-    fruteira.remove({"_id": _id}).exec( function(erro) {
-      res.end();
-    });
+    var idArray = req.body._id;
+    console.log(idArray)
+    idArray.forEach(function(value){
+      console.log(value._id);
+    })
+    fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, doc) {
+        if (doc) {
+          doc.ativo = false;
+          doc.save(function(erro){
+            if (erro) {
+              return new Error(erro)
+            }
+            res.json(doc)
+          });
+        }
+      }
+    );
   };
 
   controller.editarFruta = function(req, res){
     var _id = req.body._id;
     console.log(_id)
     var frutaReq = req.body
-    fruteira.findOne({"_id" : _id}).exec( function(erro, fruta) {
+    fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, fruta) {
         if (fruta) {
           fruta.nome = frutaReq.nome;
           fruta.quantidade = frutaReq.quantidade;

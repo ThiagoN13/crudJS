@@ -13,12 +13,13 @@ app.config(['$routeProvider',function($routeProvider){
   }).
 	when('/new',{
     controller:'controlFruit',
-    templateUrl:'./form.html'}).
+    templateUrl:'./form.html'
+  }).
   when('/list/:id',{
     controller:'removeFruit',
     templateUrl:'./list.html'}).
 	otherwise({
-    redirectTo:'/'
+    redirectTo:'/list'
   });
   app.run(['$rootScope', function($rootScope) {
     console.log('app.run');
@@ -31,6 +32,23 @@ app.controller("listController", function($scope, $http, $resource){
     Fruta.query(function(res) {
       $scope.fruits = res;
     });
+    $scope.selecionarTodos = function(){
+      angular.forEach($scope.fruits, function(value,key){
+        value.selecionado = true;
+      })
+    }
+    $scope.deselecionarTodos = function(){
+      angular.forEach($scope.fruits, function(value, key){
+        value.selecionado = false;
+      })
+    }
+    $scope.$watch("selecionartodos", function (valor) {
+      if(valor){
+        $scope.selecionarTodos();
+      } else {
+        $scope.deselecionarTodos();
+      }
+    })
   });
 
 
@@ -53,9 +71,6 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
   $scope.submit = function(){
     var Fruta = $resource('/fruteiras/inserir');
     if(!$routeParams._id){
-      console.log($scope.fruta.nome);
-      console.log($scope.fruta.quantidade);
-      console.log($scope.fruta.preco);
       fruta = new Fruta();
       fruta.nome = $scope.fruta.nome;
       fruta.quantidade = $scope.fruta.quantidade;
@@ -65,8 +80,8 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
     else{
       var FrutaRes = $resource('/fruteiras/update')
       var editar = new FrutaRes();
-      console.log("editar")
-      editar._id = $routeParams.id
+      console.log("editar");
+      editar._id = $routeParams.id;
       editar.nome = $scope.fruta.nome;
       editar.quantidade = $scope.fruta.quantidade;
       editar.preco = $scope.fruta.preco;
@@ -77,11 +92,25 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
 });
 
 app.controller('removeFruit', function($scope, $location, $routeParams, $resource){
-  console.log($routeParams.id);
   var Fruta = $resource('/fruteiras/remove');
-  var remover = new Fruta();
-  remover._id = $routeParams.id;
-  remover.$save().then(function(res){
+  var deleteFruit = new Fruta();
+
+  $scope.delete = function(fruits){
+    idArray = [];
+    angular.forEach(fruits, function(value,key){
+      if(value.selecionado){
+        idArray.push(value._id);
+      }
+    });
+    deleteFruit = idArray;
+    deleteFruit.$save().then(function(sucess){
+      console.log("remove");
+      $location.path('/list')
+    });
+  }
+
+  deleteFruit._id = $routeParams.id;
+  deleteFruit.$save().then(function(res){
     $location.path('/list')
   });
 

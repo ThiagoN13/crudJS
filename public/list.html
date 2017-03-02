@@ -1,16 +1,17 @@
 <div class="col-xs-6" ng-controller="removeFruit">
-  <button type="submit" class="btn btn-danger" ng-click="delete(fruits);">Excluir selecionados</button>
+  <button type="submit" class="btn btn-danger" ng-click="deleteSelect(fruits);" ng-disabled="fruits.length <= 0">Excluir selecionados</button>
 </div>
 <div class="input-group">
   <span class="input-group-addon"></span>
   <input type="text" class="form-control" placeholder="Procure uma fruta no estoque" ng-model="pesquisa">
 </div>
-
-<h1>Estoque</h1>
+<hr/>
+<h1>Controle de Estoque</h1>
+<hr/>
 <table class="table table-hover">
   <thead>
     <tr>
-      <th class="text-center"><input type="checkbox" ng-model="selecionartodos"/></th>
+      <th class="text-center"><input type="checkbox" ng-model="selecionartodos" ng-disabled="fruits.length <= 0"/></th>
       <th class="text-center col-sm-5">Nome da Fruta</th>
       <th class="text-center">Preço</th>
       <th class="text-center">Quantidade</th>
@@ -26,7 +27,7 @@
         <td class="text-center">{{fruta.quantidade}}</td>
         <td class="text-center">{{fruta.preco}}</td>
         <td class="text-center"> <a style="color: gray;" href="#!/edit/{{fruta._id}}" data-target="#modal" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
-        <td class="text-center"> <a style="color: red;" href="#!/list/{{fruta._id}}"> <i class="glyphicon glyphicon-remove"></i>   </a>
+        <td class="text-center"> <a style="color: red;" href="#" ng-click="deleteOne(fruta, $index)"> <i class="glyphicon glyphicon-remove"></i>   </a>
         </td>
     </tr>
   </tbody>

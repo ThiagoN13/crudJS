@@ -7,7 +7,7 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'listController',
     templateUrl:'./list.html'
   }).
-	when('/edit/:id',{
+	when('/list/:id',{
     controller:'controlFruit',
     templateUrl:'./form.html'
   }).
@@ -15,9 +15,6 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'controlFruit',
     templateUrl:'./form.html'
   }).
-  when('/list/:id',{
-    controller:'removeFruit',
-    templateUrl:'./list.html'}).
 	otherwise({
     redirectTo:'/list'
   });
@@ -28,28 +25,56 @@ app.config(['$routeProvider',function($routeProvider){
 
 
 app.controller("listController", function($scope, $http, $resource){
-    var Fruta = $resource('/fruteiras/list');
-    Fruta.query(function(res) {
-      $scope.fruits = res;
-    });
-    $scope.selecionarTodos = function(){
-      angular.forEach($scope.fruits, function(value,key){
-        value.selecionado = true;
-      })
-    }
-    $scope.deselecionarTodos = function(){
-      angular.forEach($scope.fruits, function(value, key){
-        value.selecionado = false;
-      })
-    }
-    $scope.$watch("selecionartodos", function (valor) {
-      if(valor){
-        $scope.selecionarTodos();
-      } else {
-        $scope.deselecionarTodos();
-      }
-    })
+  var Fruta = $resource('/fruteiras/list');
+  var FrutaRemove = $resource('/fruteiras/remove');
+  var deleteFruit = new FrutaRemove();
+
+  Fruta.query(function(res) {
+    $scope.fruits = res;
   });
+  $scope.selecionarTodos = function(){
+    angular.forEach($scope.fruits, function(value,key){
+      value.selecionado = true;
+    })
+  }
+  $scope.deselecionarTodos = function(){
+    angular.forEach($scope.fruits, function(value, key){
+      value.selecionado = false;
+    })
+  }
+  $scope.$watch("selecionartodos", function (valor) {
+    if(valor){
+      $scope.selecionarTodos();
+    } else {
+      $scope.deselecionarTodos();
+    }
+  })
+
+  $scope.deleteOne = function(fruta, index){
+    deleteFruit._id = [fruta._id];
+    $scope.fruits.splice(index,1);
+    deleteFruit.$save().then(function(res){
+      console.log("removido")
+      $location.path('/')
+    });
+  }
+
+  $scope.deleteSelect = function(fruits){
+    idArray = [];
+    angular.forEach(fruits, function(value,key){
+      if(value.selecionado){
+        idArray.push(value._id);
+        $scope.fruits.splice(key,1);
+      }
+    });
+
+    deleteFruit._id = idArray;
+    deleteFruit.$save().then(function(sucess){
+      console.log("remove");
+      $location.path('/')
+    });
+  }
+});
 
 
 app.controller('controlFruit', function ($scope,$location, $routeParams, $resource) {
@@ -70,22 +95,33 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
 
   $scope.submit = function(){
     var Fruta = $resource('/fruteiras/inserir');
-    if(!$routeParams._id){
-      fruta = new Fruta();
-      fruta.nome = $scope.fruta.nome;
-      fruta.quantidade = $scope.fruta.quantidade;
-      fruta.preco = $scope.fruta.preco;
-      fruta.$save();
+    console.log($routeParams.id);
+    if(!$routeParams.id){
+      if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
+        fruta = new Fruta();
+        fruta.nome = $scope.fruta.nome;
+        fruta.quantidade = $scope.fruta.quantidade;
+        fruta.preco = $scope.fruta.preco;
+        fruta.$save();
+        $scope.message2 = "Fruta cadastrada com sucesso";
+      } else {
+        $scope.message = "Erro ao cadastrar fruta";
+      }
     }
     else{
-      var FrutaRes = $resource('/fruteiras/update')
-      var editar = new FrutaRes();
-      console.log("editar");
-      editar._id = $routeParams.id;
-      editar.nome = $scope.fruta.nome;
-      editar.quantidade = $scope.fruta.quantidade;
-      editar.preco = $scope.fruta.preco;
-      editar.$save();
+      if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
+        var FrutaRes = $resource('/fruteiras/update')
+        var editar = new FrutaRes();
+        console.log("editar");
+        editar._id = $routeParams.id;
+        editar.nome = $scope.fruta.nome;
+        editar.quantidade = $scope.fruta.quantidade;
+        editar.preco = $scope.fruta.preco;
+        editar.$save();
+        $scope.message2 = "Alteração feita com sucesso";
+      } else {
+        $scope.message = "Erro ao editar fruta";
+      }
     }
 
   }
@@ -94,24 +130,4 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
 app.controller('removeFruit', function($scope, $location, $routeParams, $resource){
   var Fruta = $resource('/fruteiras/remove');
   var deleteFruit = new Fruta();
-
-  $scope.delete = function(fruits){
-    idArray = [];
-    angular.forEach(fruits, function(value,key){
-      if(value.selecionado){
-        idArray.push(value._id);
-      }
-    });
-    deleteFruit = idArray;
-    deleteFruit.$save().then(function(sucess){
-      console.log("remove");
-      $location.path('/list')
-    });
-  }
-
-  deleteFruit._id = $routeParams.id;
-  deleteFruit.$save().then(function(res){
-    $location.path('/list')
-  });
-
 });

@@ -20,6 +20,9 @@ module.exports = function(){
     ativo:{
       type: Boolean,
       default: true
+    },
+    atualizacao:{
+      type: Date,
     }
   }, {collection:"fruteira"});
 

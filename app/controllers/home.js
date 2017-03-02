@@ -5,9 +5,8 @@ module.exports = function(app){
 
   controller.inserirFruta = function(req, res){
     var fruta = req.body;
-    console.log("servidor");
     console.log(fruta);
-    var frut = new fruteira({"nome":fruta.nome, "quantidade":fruta.quantidade, "preco":fruta.preco})
+    var frut = new fruteira({"nome":fruta.nome, "quantidade":fruta.quantidade, "preco":fruta.preco, "atualizacao":new Date()})
     frut.save().then( function(result){
       console.log(result);
     })
@@ -30,34 +29,28 @@ module.exports = function(app){
   };
 
   controller.removerFruta = function(req, res){
-    var idArray = req.body._id;
-    console.log(idArray)
-    idArray.forEach(function(value){
-      console.log(value._id);
-    })
-    fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, doc) {
-        if (doc) {
-          doc.ativo = false;
-          doc.save(function(erro){
-            if (erro) {
-              return new Error(erro)
-            }
-            res.json(doc)
-          });
-        }
-      }
-    );
+    var ids = req.body._id;
+    console.log(ids)
+    if(ids){
+      ids.forEach(function(valorId) {
+        console.log(valorId);
+        fruteira.update({"_id" : valorId}, {$set: {ativo: false}}).exec( function(erro, doc) {
+          console.log("removido");
+          console.log(doc);
+        });
+      });
+    }
   };
 
   controller.editarFruta = function(req, res){
     var _id = req.body._id;
-    console.log(_id)
     var frutaReq = req.body
     fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, fruta) {
         if (fruta) {
           fruta.nome = frutaReq.nome;
           fruta.quantidade = frutaReq.quantidade;
-          fruta.preco = fruta.preco;
+          fruta.preco = frutaReq.preco;
+          fruta.atualizacao = new Date();
           fruta.save(function(erro){
             if (erro) {
               return new Error(erro)

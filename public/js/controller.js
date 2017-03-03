@@ -15,8 +15,12 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'controlFruit',
     templateUrl:'./form.html'
   }).
+  when('/home',{
+    controller:'listController',
+    templateUrl:'./home.html'
+  }).
 	otherwise({
-    redirectTo:'/list'
+    redirectTo:'/home'
   });
   app.run(['$rootScope', function($rootScope) {
     console.log('app.run');
@@ -51,15 +55,17 @@ app.controller("listController", function($scope, $http, $resource){
   })
 
   $scope.deleteOne = function(fruta, index){
+    console.log("Deletando uma fruta");
     deleteFruit._id = [fruta._id];
     $scope.fruits.splice(index,1);
     deleteFruit.$save().then(function(res){
       console.log("removido")
-      $location.path('/')
+      $location.path('/list')
     });
   }
 
   $scope.deleteSelect = function(fruits){
+    console.log("Deletando frutas selecionadas");
     idArray = [];
     angular.forEach(fruits, function(value,key){
       if(value.selecionado){
@@ -71,9 +77,29 @@ app.controller("listController", function($scope, $http, $resource){
     deleteFruit._id = idArray;
     deleteFruit.$save().then(function(sucess){
       console.log("remove");
-      $location.path('/')
+      $location.path('/list')
     });
   }
+
+  $scope.carrinho = [];
+
+  $scope.SelectFruit = function(fruta){
+    carrinhoFruta.push(fruta);
+  }
+
+  $scope.addCarrinho = function(){
+    console.log(carrinhoFruta);
+    //fruit.quantidade = $scope.carrinho.qtdCarrinho;
+    $scope.carrinho.qtdCarrinho = "";
+    $scope.carrinho.push(fruit);
+  }
+
+  $scope.removeCarrinho = function(fruta, index){
+    $scope.fruta.carrinho = false;
+    $scope.carrinho.splice(index,1);
+    console.log($scope.carrinho)
+  }
+
 });
 
 
@@ -125,9 +151,4 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
     }
 
   }
-});
-
-app.controller('removeFruit', function($scope, $location, $routeParams, $resource){
-  var Fruta = $resource('/fruteiras/remove');
-  var deleteFruit = new Fruta();
 });

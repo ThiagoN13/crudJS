@@ -1,0 +1,77 @@
+<head>
+  <title>CrudJS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
+  <script src="bower_components/angular-locale-pt-br/angular-locale-pt-br"></script>
+  <script src="js/controller.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#login">Login</a></li>
+        <li><a data-toggle="tab" href="#cadastrar">Criar conta</a></li>
+      </ul>
+
+    <div class="tab-content">
+      <div id="login" class="tab-pane fade in active">
+        <h3>Login</h3>
+        <hr />
+        <form>
+          <div class="form-group">
+            <label for="user">Usuário</label>
+            <div class="input-group col-xs-4">
+              <span class="input-group-addon glyphicon glyphicon-user"></span>
+              <input type="text" id="user" class="form-control" placeholder="Insira seu email" ng-model="usuario.login" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <div class="input-group col-xs-4">
+              <span class="input-group-addon glyphicon glyphicon-hand-right"></span>
+              <input type="text" id="senha" class="form-control" placeholder="Insira sua senha" ng-model="usuario.senha" required>
+            </div>
+          </div>
+          <div class="form-group col-xs-4">
+            <button class="btn btn-default pull-right">Logar</button>
+          </div>
+        </form>
+      </div>
+      <div id="cadastrar" class="tab-pane fade">
+        <h3>Criar conta</h3>
+        <hr />
+        <form>
+          <div class="form-group">
+            <label for="user">Usuário</label>
+            <div class="input-group col-xs-4">
+              <span class="input-group-addon glyphicon glyphicon-user"></span>
+              <input type="text" id="user" class="form-control" placeholder="Insira seu email" ng-model="usuario.login" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-group col-xs-4">
+              <span class="input-group-addon glyphicon glyphicon-envelope"></span>
+              <input type="email" id="senha" class="form-control" placeholder="Insira seu email" ng-model="usuario.email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <div class="input-group col-xs-4">
+              <span class="input-group-addon glyphicon glyphicon-hand-right"></span>
+              <input type="text" id="senha" class="form-control" placeholder="Insira sua senha" ng-model="usuario.senha" required>
+            </div>
+          </div>
+          <div class="form-group col-xs-4">
+            <button class="btn btn-default pull-right">Cadastrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>

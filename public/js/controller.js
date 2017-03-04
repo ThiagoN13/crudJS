@@ -3,17 +3,9 @@ var app = angular.module('app',['ngRoute', 'ngResource']);
 
 app.config(['$routeProvider',function($routeProvider){
 	$routeProvider.
-	when('/list',{
+	when('/list/:id',{
     controller:'listController',
     templateUrl:'./list.html'
-  }).
-	when('/list/:id',{
-    controller:'controlFruit',
-    templateUrl:'./form.html'
-  }).
-	when('/new',{
-    controller:'controlFruit',
-    templateUrl:'./form.html'
   }).
   when('/home',{
     controller:'listController',
@@ -28,7 +20,7 @@ app.config(['$routeProvider',function($routeProvider){
 }]);
 
 
-app.controller("listController", function($scope, $http, $resource){
+app.controller("listController", function($routeParams, $scope, $http, $resource, $location){
   var Fruta = $resource('/fruteiras/list');
   var FrutaRemove = $resource('/fruteiras/remove');
   var deleteFruit = new FrutaRemove();
@@ -60,7 +52,6 @@ app.controller("listController", function($scope, $http, $resource){
     $scope.fruits.splice(index,1);
     deleteFruit.$save().then(function(res){
       console.log("removido")
-      $location.path('/list')
     });
   }
 
@@ -73,38 +64,100 @@ app.controller("listController", function($scope, $http, $resource){
         $scope.fruits.splice(key,1);
       }
     });
-
     deleteFruit._id = idArray;
     deleteFruit.$save().then(function(sucess){
       console.log("remove");
-      $location.path('/list')
     });
   }
 
   $scope.carrinho = [];
+  $scope.carrinho.total = 0;
+  var vCompra, qtdEstoque = [];
+
+  function verificaCompra(){
+      angular.forEach($scope.fruits, function(frutaEstoque){
+        if($scope.carrinho[$scope.carrinho.length-1].nome == frutaEstoque.nome){
+          if($scope.carrinho.qtdCarrinho > frutaEstoque.quantidade){
+            console.log("Indisponivel");
+            vCompra = false;
+          }
+          else {
+            console.log("disponivel");
+            vCompra = true;
+          }
+        }
+      });
+  }
 
   $scope.SelectFruit = function(fruta){
-    carrinhoFruta.push(fruta);
+    fruta.disponivel = false;
+    qtdEstoque.push({"id":fruta._id ,"nome":fruta.nome, "quantidade": fruta.quantidade});
+    $scope.carrinho.push(fruta);
+    $scope.carrinho.qtdCarrinho = 1;
+    $scope.$watch("carrinho.qtdCarrinho", function (valor) {
+      if(valor){
+        if(valor > fruta.quantidade){
+          $scope.message = "Quantidade indisponivel no estoque";
+        } else{
+          $scope.message = "";
+        }
+      }
+    });
+  }
+
+  function calcTot(){
+    $scope.carrinho.total = 0;
+    if($scope.carrinho){
+      angular.forEach($scope.carrinho, function(value){
+        $scope.carrinho.total += value.quantidade * value.preco;
+      });
+    }
   }
 
   $scope.addCarrinho = function(){
-    console.log(carrinhoFruta);
-    //fruit.quantidade = $scope.carrinho.qtdCarrinho;
-    $scope.carrinho.qtdCarrinho = "";
-    $scope.carrinho.push(fruit);
+    verificaCompra();
+    if(vCompra){
+      if(!$scope.carrinho.qtdCarrinho) $scope.carrinho.qtdCarrinho = 1;
+      $scope.carrinho[$scope.carrinho.length-1].quantidade = $scope.carrinho.qtdCarrinho;
+      $scope.carrinho[$scope.carrinho.length-1].disponivel = true;
+      $scope.carrinho.qtdCarrinho = "";
+      calcTot();
+    } else {
+      console.log("nao tem");
+    }
   }
 
   $scope.removeCarrinho = function(fruta, index){
-    $scope.fruta.carrinho = false;
     $scope.carrinho.splice(index,1);
-    console.log($scope.carrinho)
+    calcTot();
   }
+
+  $scope.attEstoque = function(){
+    var attQuantidade = $resource('/fruteiras/atualizaEstoque');
+    var attFruit = new attQuantidade();
+    verificaCompra();
+    if(vCompra){
+      angular.forEach(qtdEstoque, function(value){
+        angular.forEach($scope.fruits, function(fruta){
+          if(value.nome == fruta.nome){
+            fruta.quantidade = value.quantidade - fruta.quantidade;
+            attFruit._id = fruta._id;
+            attFruit.quantidade = fruta.quantidade;
+            attFruit.$save().then(function(sucess){
+              console.log("editado");
+            });
+          }
+        });
+      });
+    };
+  }
+
 
 });
 
 
 app.controller('controlFruit', function ($scope,$location, $routeParams, $resource) {
-  if($routeParams.id == undefined){
+  if($routeParams.id == ":index"){
     $scope.title = "Nova Fruta";
   }
   else {
@@ -122,8 +175,9 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
   $scope.submit = function(){
     var Fruta = $resource('/fruteiras/inserir');
     console.log($routeParams.id);
-    if(!$routeParams.id){
+    if($routeParams.id == ":index"){
       if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
+        $scope.fruits.push($scope.fruta);
         fruta = new Fruta();
         fruta.nome = $scope.fruta.nome;
         fruta.quantidade = $scope.fruta.quantidade;
@@ -134,7 +188,7 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
         $scope.message = "Erro ao cadastrar fruta";
       }
     }
-    else{
+    if($routeParams.id != ":index"){
       if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
         var FrutaRes = $resource('/fruteiras/update')
         var editar = new FrutaRes();
@@ -149,6 +203,6 @@ app.controller('controlFruit', function ($scope,$location, $routeParams, $resour
         $scope.message = "Erro ao editar fruta";
       }
     }
-
+		$location.path('/list/:index')
   }
 });

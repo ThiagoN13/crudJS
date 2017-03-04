@@ -28,10 +28,11 @@ module.exports = function(app){
       });
   };
 
+  //Remoção lógica
   controller.removerFruta = function(req, res){
     var ids = req.body._id;
-    console.log(ids)
     if(ids){
+      console.log(ids)
       ids.forEach(function(valorId) {
         console.log(valorId);
         fruteira.update({"_id" : valorId}, {$set: {ativo: false}}).exec( function(erro, doc) {
@@ -40,6 +41,15 @@ module.exports = function(app){
         });
       });
     }
+  };
+
+  controller.atualizaEstoque = function(req, res){
+    var id = req.body._id;
+    var quantidade = req.body.quantidade;
+    fruteira.update({"_id" : id}, {$set: {quantidade: quantidade}}).exec( function(erro, doc) {
+      console.log("Quantidade alterada");
+      console.log(doc);
+    });
   };
 
   controller.editarFruta = function(req, res){

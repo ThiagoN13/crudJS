@@ -33,7 +33,10 @@
         <input type="number" ng-model="carrinho.qtdCarrinho" class="form-control" placeholder="Quantidade de frutas" required/>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="addCarrinho()">Adcionar</button>
+        <button type="button" class="btn btn-default" ng-disabled="message" ng-click="addCarrinho()" data-dismiss="modal">Adcionar</button>
+        <div class="alert alert-danger col-sm-8 text-center" ng-if="message">
+          {{message}}
+        </div>
       </div>
     </div>
   </div>

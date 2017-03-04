@@ -16,18 +16,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="fruta in carrinho | filter:{nome:pesquisa} || 'nome'" >
-                <td class="text-center">{{fruta.nome}}</td>
-                <td class="text-center">{{fruta.preco | currency}}</td>
-                <td class="text-center">{{fruta.quantidade}}</td>
-                <td class="text-center"> <a style="color: red;" ng-click="removeCarrinho(fruta, $index)"> <i class="glyphicon glyphicon-remove"></i></a></td>
+            <tr ng-repeat="fruit in carrinho | filter:{nome:pesquisa} || 'nome'" >
+                <td class="text-center" ng-if="fruit.disponivel">{{fruit.nome}}</td>
+                <td class="text-center" ng-if="fruit.disponivel">{{fruit.preco | currency}}</td>
+                <td class="text-center" ng-if="fruit.disponivel">{{fruit.quantidade}}</td>
+                <td class="text-center" ng-if="fruit.disponivel"> <a style="color: red;" ng-click="removeCarrinho(fruit, $index)"> <i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
         <strong class="pull-left">Total: {{carrinho.total | currency}}</strong>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="attEstoque();">Comprar</button>
       </div>
     </div>
   </div>

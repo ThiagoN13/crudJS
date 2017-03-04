@@ -5,9 +5,13 @@
   <span class="input-group-addon"></span>
   <input type="text" class="form-control" placeholder="Procure uma fruta no estoque" ng-model="pesquisa">
 </div>
+
 <hr/>
 <h1>Controle de Estoque</h1>
 <hr/>
+
+<div ng-include="'form.html'"></div>
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -26,8 +30,8 @@
         <td class="text-center">{{fruta.nome}}</td>
         <td class="text-center">{{fruta.preco | currency}}</td>
         <td class="text-center">{{fruta.quantidade}}</td>
-        <td class="text-center"> <a style="color: gray;" href="#!/edit/{{fruta._id}}" data-target="#form" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
-        <td class="text-center"> <a style="color: red;" href="#" ng-click="deleteOne(fruta, $index)"> <i class="glyphicon glyphicon-remove"></i></a></td>
+        <td class="text-center"> <a style="color: gray;" href="#!/list/{{fruta._id}}" data-target="#form" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
+        <td class="text-center"> <a style="color: red;" href="#!/list/:index" ng-click="deleteOne(fruta, $index)"> <i class="glyphicon glyphicon-remove"></i></a></td>
     </tr>
   </tbody>
 </table>

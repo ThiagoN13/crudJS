@@ -11,8 +11,8 @@ module.exports = function(uri){
     console.log("Database nao conectada em " + uri);
   });
 
-  mongoose.connection.on('error', function(){
-    console.log("Erro ao conectar-se a database " + error);
+  mongoose.connection.on('erro', function(){
+    console.log("Erro ao conectar-se a database " + erro);
   });
 
   process.on('SIGINT', function() {

@@ -6,6 +6,21 @@ require('./database.js')('mongodb://localhost/fruteira');
 
 module.exports = function(){
   var app = express();
+
+  // Iniciando sessao em construcao
+
+  // var sessao = {
+  // secret: '1234',
+  // cookie: {}
+  // }
+  //
+  // if (app.get('enviar') === 'producao') {
+  //   app.set('proxy', 1);
+  //   sessao.cookie.secure = true;
+  // }
+  //
+  // app.use(session(sessao))
+
   // setando a porta do servidor
   app.set("port", 3000);
 

@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 module.exports = function(){
   var usuarioDb = mongoose.Schema({
-    usuario:{
+    login:{
       type: String,
       required: true,
       index:{
@@ -12,17 +12,13 @@ module.exports = function(){
     email:{
       type: String,
       required: true
-      index:{
-        unique: true
-      }
     },
     senha:{
       type: String,
       required: true
-    }
+    },
     nivel:{
-      type: String,
-      required: true
+      type: Number
     }
   }, {collection:"usuario"});
 

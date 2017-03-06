@@ -20,6 +20,7 @@
     "body-parser": "^1.16.1",
     "express": "^4.8.8",
     "express-load": "^1.1.15",
+    "express-session": "^1.15.1",
     "mongoose": "^4.8.4"
   }
 }

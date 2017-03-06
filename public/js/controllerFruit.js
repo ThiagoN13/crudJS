@@ -20,7 +20,7 @@ app.config(['$routeProvider',function($routeProvider){
 }]);
 
 
-app.controller("listController", function($routeParams, $scope, $http, $resource, $location){
+app.controller("listController", function($routeParams, $scope, $resource, $location){
   var Fruta = $resource('/fruteiras/list');
   var FrutaRemove = $resource('/fruteiras/remove');
   var deleteFruit = new FrutaRemove();
@@ -156,7 +156,7 @@ app.controller("listController", function($routeParams, $scope, $http, $resource
 });
 
 
-app.controller('controlFruit', function ($scope,$location, $routeParams, $resource) {
+app.controller('controlFruit', function ($scope, $location, $routeParams, $resource) {
   if($routeParams.id == ":index"){
     $scope.title = "Nova Fruta";
   }

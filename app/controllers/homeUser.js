@@ -1,23 +1,40 @@
 module.exports = function(app){
-  var usuario = app.models.usuario;
+  var Usuario = app.models.usuario;
 
   var controller = {};
 
   controller.novoUsuario = function(req, res){
     var userReq = req.body;
     console.log(userReq);
-    var user = new usuario({"login":userReq.login, "email":userReq.email, "senha":userReq.senha, "nivel":0})
+    var user = new Usuario({"login":userReq.login, "email":userReq.email, "senha":userReq.senha, "nivel":0})
+    req.session.usuario = {
+      login: userReq.login,
+      email: userReq.email
+    }
+    console.log(req.session.usuario);
     user.save().then( function(result){
       console.log(result);
     })
+    res.redirect("/")
   };
 
   controller.obterUsuario = function(req, res){
-    usuario.find({}).exec( function(erro, sucess) {
+    Usuario.find({}).exec( function(erro, sucess) {
         if (sucess) {
           res.json(sucess)
         }
+
       });
   }
+
+  controller.destruirSession = function(req, res){
+    req.session.destroy();
+  }
+
+  controller.rotaRaiz = function(req,res){
+    res.render("../login.html")
+  }
+
+
   return controller;
 }

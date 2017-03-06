@@ -2,18 +2,18 @@
 var app = angular.module('app',['ngRoute', 'ngResource']);
 
 app.config(['$routeProvider',function($routeProvider){
-	$routeProvider.
-	when('/list/:id',{
+	$routeProvider
+  .when('/list/:id',{
     controller:'listController',
     templateUrl:'./list.html'
-  }).
-  when('/home',{
+  })
+  .when('/home',{
     controller:'listController',
     templateUrl:'./home.html'
-  }).
-	otherwise({
-    redirectTo:'/home'
-  });
+  }) //.
+	// otherwise({
+  //   redirectTo:'/'
+  // });
   app.run(['$rootScope', function($rootScope) {
     console.log('app.run');
   }]);

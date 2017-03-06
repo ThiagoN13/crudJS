@@ -2,6 +2,9 @@ module.exports = function(app){
   var controllerFruit = app.controllers.homeFruit;
   var controllerUser = app.controllers.homeUser;
 
+  // Rota raiz
+  app.get('/', controllerUser.rotaRaiz);
+
   // Rotas de controle Fruta
 
   app.get('/fruteiras/list', controllerFruit.listarFruta);

@@ -1,5 +1,6 @@
 <div class="col-xs-6">
-  <button class="btn btn-default" data-target="#carrinhoCompras" data-toggle="modal"><span class="glyphicon glyphicon-resize-full"></span> Ver carrinho</button>
+  <button class="btn btn-default" data-target="#carrinhoCompras" data-toggle="modal" >
+    <span class="glyphicon glyphicon-resize-full"></span> Ver carrinho</button>
 </div>
 <div class="input-group col-sm-5">
   <span class="input-group-addon"></span>
@@ -8,9 +9,11 @@
 <hr/>
 <h1>Loja</h1>
 <hr/>
-<div ng-include="'carrinho.html'">
 
-</div>
+<div ng-include="'carrinho.html'"></div>
+<div ng-include="'login.html'"></div>
+
+
 <ul class="list-group col-sm-3" ng-repeat="fruta in fruits | filter:{nome:pesquisa} || 'nome'">
   <li class="list-group-item text-center" >
     <img src="img/default.jpg" class="img-responsive img-circle" width="140" height="120" style="margin-left:20%">

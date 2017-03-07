@@ -17,7 +17,9 @@ module.exports = function(app){
   // Rotas de controle do usuario
 
   app.post('/usuarios/novoUsuario', controllerUser.novoUsuario);
-  app.get('/usuarios/obterUsuario', controllerUser.obterUsuario)
+  app.post('/usuarios/logarUsuario', controllerUser.logarUsuario);
+  app.get('/usuarios/obterUsuario', controllerUser.obterUsuario);
+  app.post('/usuarios/destruirSession', controllerUser.destruirSession)
 
 
 }

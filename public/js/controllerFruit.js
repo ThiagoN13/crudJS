@@ -1,24 +1,4 @@
-//Criação ao $app que é o modulo que representa toda a aplicação
-var app = angular.module('app',['ngRoute', 'ngResource']);
-
-app.config(['$routeProvider',function($routeProvider){
-	$routeProvider
-  .when('/list/:id',{
-    controller:'listController',
-    templateUrl:'./list.html'
-  })
-  .when('/home',{
-    controller:'listController',
-    templateUrl:'./home.html'
-  }) //.
-	// otherwise({
-  //   redirectTo:'/'
-  // });
-  app.run(['$rootScope', function($rootScope) {
-    console.log('app.run');
-  }]);
-}]);
-
+var app = angular.module('app');
 
 app.controller("listController", function($routeParams, $scope, $resource, $location){
   var Fruta = $resource('/fruteiras/list');
@@ -157,15 +137,16 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
 
 
 app.controller('controlFruit', function ($scope, $location, $routeParams, $resource) {
-  if($routeParams.id == ":index"){
+  if($routeParams.index == ":index"){
     $scope.title = "Nova Fruta";
   }
   else {
+    console.log($routeParams.index);
     $scope.title = "Editar Fruta";
-    var Fruta = $resource('/fruteiras/list:id');
+    var Fruta = $resource('/fruteiras/list/:id');
     Fruta.query(function(res) {
       angular.forEach(res, function(value){
-          if(value._id == $routeParams.id){
+          if(value._id == $routeParams.index){
             $scope.fruta = {nome : value.nome, quantidade:value.quantidade, preco:value.preco};
           }
       });

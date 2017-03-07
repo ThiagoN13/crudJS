@@ -19,6 +19,9 @@ module.exports = function(){
     },
     nivel:{
       type: Number
+    },
+    ativo:{
+      type: Boolean
     }
   }, {collection:"usuario"});
 

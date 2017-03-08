@@ -2,8 +2,6 @@ module.exports = function(app){
   var controllerFruit = app.controllers.homeFruit;
   var controllerUser = app.controllers.homeUser;
 
-  // Rota raiz
-  app.get('/', controllerUser.rotaRaiz);
 
   // Rotas de controle Fruta
 
@@ -16,10 +14,12 @@ module.exports = function(app){
 
   // Rotas de controle do usuario
 
+  app.get('/usuarios/obterUsuario', controllerUser.obterUsuario);
+  app.get('/usuarios/infoUsuario', controllerUser.infoUsuario);
   app.post('/usuarios/novoUsuario', controllerUser.novoUsuario);
   app.post('/usuarios/logarUsuario', controllerUser.logarUsuario);
-  app.get('/usuarios/obterUsuario', controllerUser.obterUsuario);
-  app.post('/usuarios/destruirSession', controllerUser.destruirSession)
+  app.post('/usuarios/destruirSession', controllerUser.destruirSession);
+  app.post('/usuarios/editarUsuario', controllerUser.editarUsuario)
 
 
 }

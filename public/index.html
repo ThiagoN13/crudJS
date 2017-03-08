@@ -17,15 +17,16 @@
   <nav class="navbar navbar-default" ng-controller="controlAcess">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#!/home/">Loja</a></li>
-        <li><a href="#" data-target="#controllUser" data-toggle="modal">Entrar ou criar uma nova conta</a></li>
-        <li><a href="#!/list/:index">Lista de frutas</a></li>
-        <li><a href="#!/list/:index" data-target="#form" data-toggle="modal">Adicionar fruta</a></li>
+        <li class="active"><a href="#!/home/:index">Loja</a></li>
+        <li><a href="#!/home/index2" data-target="#controllUser" data-toggle="modal">Entrar ou criar uma nova conta</a></li>
+        <li><a href="#!/list/:index2">Lista de frutas</a></li>
+        <li><a href="#!/list/:index2" data-target="#form" data-toggle="modal">Adicionar fruta</a></li>
+        <li><a href="#!/list/:index2" data-target="#formPermissao" data-toggle="modal">Conceder permissão</a></li>
         <li><a href="" id="menu1" data-toggle="dropdown">Configuração</a>
         <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1">
           <li role="presentation">
-            <a href="#" ng-click="editarUsuario();" role="menuitem" data-target="#cadastraUser" data-toggle="modal">Editar informações</a>
-            <a href="/" role="menuitem">Sair</a>
+            <a href="#!/home/:index2" ng-click="infoUser();" role="menuitem" data-target="#cadastraUser" data-toggle="modal">Editar informações</a>
+            <a href="#!/home/:index" role="menuitem" ng-click="deslogar();">Sair</a>
           </li>
         </ul></li>
       </ul>
@@ -35,6 +36,6 @@
   <div class="container">
       <div ng-view ></div>
   </div>
-
+<div ng-include="'formPermissao.html'"></div>
   </body>
 </html>

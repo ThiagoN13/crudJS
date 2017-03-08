@@ -90,6 +90,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
     if($scope.carrinho){
       angular.forEach($scope.carrinho, function(value){
         $scope.carrinho.total += value.quantidade * value.preco;
+        return $scope.carrinho.total;
       });
     }
   }
@@ -101,7 +102,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
       $scope.carrinho[$scope.carrinho.length-1].quantidade = $scope.carrinho.qtdCarrinho;
       $scope.carrinho[$scope.carrinho.length-1].disponivel = true;
       $scope.carrinho.qtdCarrinho = "";
-      calcTot();
+      var total = calcTot();
     } else {
       console.log("nao tem");
     }
@@ -124,7 +125,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
             attFruit._id = fruta._id;
             attFruit.quantidade = fruta.quantidade;
             attFruit.$save().then(function(sucess){
-              console.log("editado");
+              console.log("atualizado");
             });
           }
         });
@@ -145,6 +146,7 @@ app.controller('controlFruit', function ($scope, $location, $routeParams, $resou
     $scope.title = "Editar Fruta";
     var Fruta = $resource('/fruteiras/list/:id');
     Fruta.query(function(res) {
+      console.log()
       angular.forEach(res, function(value){
           if(value._id == $routeParams.index){
             $scope.fruta = {nome : value.nome, quantidade:value.quantidade, preco:value.preco};

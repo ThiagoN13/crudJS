@@ -7,12 +7,12 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'listController',
     templateUrl:'./list.html'
   })
-  .when('/home',{
+  .when('/home/:index',{
     controller:'listController',
     templateUrl:'./home.html'
   })
   .otherwise({
-    redirectTo:'/home'
+    redirectTo:'/home/:index'
   });
   app.run(['$rootScope', function($rootScope) {
     console.log('app.run');

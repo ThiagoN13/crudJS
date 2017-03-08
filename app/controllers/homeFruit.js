@@ -14,7 +14,6 @@ module.exports = function(app){
 
   controller.obterFruta = function(req, res){
     var _id = req.params._id;
-    console.log(_id)
     Fruteira.findOne({"_id" : _id}).exec( function(erro, frutas) {
         if (frutas) {
           res.json(frutas)
@@ -54,7 +53,7 @@ module.exports = function(app){
   };
 
   controller.editarFruta = function(req, res){
-    var _id = req.body._id;
+    var _id = req.body.id;
     var frutaReq = req.body
     Fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, fruta) {
         if (fruta) {
@@ -72,8 +71,6 @@ module.exports = function(app){
       }
     );
   }
-
-
 
   return controller;
 }

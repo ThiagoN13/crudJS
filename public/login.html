@@ -52,13 +52,13 @@
       <div class="modal-header">
           <a href="#!/list/" class="close" data-dismiss="modal">&times;</a>
         <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="tab" href="">Criar conta</a></li>
+          <li class="active"><a data-toggle="tab" href="">{{title}}</a></li>
         </ul>
       </div>
       <div class="modal-body">
         <div class="tab-content">
           <div id="login" class="tab-pane fade in active">
-            <h3>Criar conta</h3>
+            <h3>{{title}}</h3>
             <form name="formCadastro">
               <div class="form-group">
                 <label for="user">Usuário</label>
@@ -82,10 +82,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-default pull-right" ng-click="cadastrar();" ng-disabled="formCadastro.$invalid">Cadastrar</button>
-                <div ng-if="messageCadastro" class="alert alert-success col-sm-10 text-center">
-                  {{messageCadastro}}
-                </div>
+                <button class="btn btn-default pull-right" ng-click="controlUser();" ng-disabled="formCadastro.$invalid" data-dismiss="modal">Finalizar</button>
               </div>
             </form>
           </div>

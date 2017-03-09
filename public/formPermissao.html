@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="formPermissao">
+<div class="modal fade" tabindex="-1" role="dialog" id="formPermissao" ng-controller="controlAcess">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -6,15 +6,33 @@
         <h4 class="modal-title">Adicione permissao</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label for="usuarios">Selecione usuario</label>
-          <select class="form-control" id="usuarios" ng-repeat="user in usuarios">
-            <option>{{user.nome}}</option>
-          </select>
-        </div>
+        <label for="usuarios">Selecione usuario</label>
+        <form class="form-inline" ng-submit="permissao()">
+          <div class="form-group">
+            <select class="form-control" id="usuarios" ng-model="adm.permissao" style="width:512px">
+              <option value="" selected>Selecione um usuario</option>
+              <option ng-repeat="user in usuarios" value="{{user._id}}">{{user.login}} - {{user.email}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">Add</button>
+        </form>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center col-sm-5">Nome do usuario</th>
+              <th class="text-center col-sm-5">Excluir</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="admin in administradores">
+            <tr>
+                <td class="text-center">{{admin.login}}</td>
+                <td class="text-center"> <a style="color: red;" href="#!/list/:index" ng-click="removerAdmin(admin, $index);"> <i class="glyphicon glyphicon-remove"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-disabled="message"  data-dismiss="modal">Adcionar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Finalizar</button>
       </div>
     </div>
   </div>

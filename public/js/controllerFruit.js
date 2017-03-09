@@ -138,7 +138,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
 
 
 app.controller('controlFruit', function ($scope, $location, $routeParams, $resource) {
-  if($routeParams.index == ":index"){
+  if($routeParams.index == ":index2"){
     $scope.title = "Nova Fruta";
   }
   else {

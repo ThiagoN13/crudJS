@@ -43,6 +43,18 @@ module.exports = function(app){
     })
   }
 
+  controller.obterAdmin = function(req, res){
+    Usuario.find({}).where('nivel', 1).exec(function(erro, sucess){
+      res.json(sucess);
+    })
+  }
+
+  controller.usuarioPadrao = function(req, res){
+    Usuario.find({}).where('nivel', 0).exec(function(erro, sucess){
+      res.json(sucess);
+    })
+  }
+
   controller.editarUsuario = function(req, res){
     var userReq = req.body;
     if(userReq){
@@ -53,9 +65,23 @@ module.exports = function(app){
       }
   }
 
+  controller.editarNivel = function(req, res){
+    var userReq = req.body;
+    console.log(userReq.nivel)
+    if(userReq.nivel == 1) userReq.nivel = 0
+    else userReq.nivel = 1
+    console.log(userReq.nivel)
+    if(userReq){
+        Usuario.update({"_id" : userReq._id}, {$set: {nivel: userReq.nivel}})
+          .exec( function(erro, doc) {
+            console.log(doc);
+        });
+      }
+  }
+
   controller.infoUsuario = function(req, res){
     if(req.session.usuario != undefined){
-      Usuario.findOne({}).where('login', req.session.usuario.login && 'email', req.session.usuario.email).exec( function(erro, user) {
+      Usuario.findOne({"login":req.session.usuario.login}).where().exec( function(erro, user) {
         if(user){
           res.json([user]);
         }

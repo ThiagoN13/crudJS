@@ -28,7 +28,10 @@
       <div class="modal-footer">
         <strong class="pull-left">Total: {{carrinho.total | currency}}</strong>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="attEstoque();">Comprar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="attEstoque();" ng-controller="controlAcess" ng-disabled="!userLogado">Comprar</button>
+        <div class="alert alert-warning text-center col-sm-8" ng-if="userLogado">
+          Voce precisa fazer o login para efetuar compra
+        </div>
       </div>
     </div>
   </div>

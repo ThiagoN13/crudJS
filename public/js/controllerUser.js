@@ -2,31 +2,39 @@
 var app = angular.module('app');
 
 app.controller("controlAcess", function($scope, $resource, $location, $routeParams){
-  $scope.title = "Criar Conta";
   var obterUsuario = $resource('/usuarios/obterUsuario');
-  obterUsuario.query(function(res) {
+  var userPadrao = $resource('/usuarios/usuarioPadrao');
+  var EditarUsuario = $resource('/usuarios/editarUsuario');
+  var userAdmin = $resource('/usuarios/obterAdmin');
+  var Info = $resource('/usuarios/infoUsuario');
+
+  $scope.title = "Criar Conta";
+
+  Info.query(function(res) {
+    $scope.userLogado = res;
+  });
+  userPadrao.query(function(res) {
     $scope.usuarios = res;
   });
+  userAdmin.query(function(res) {
+    $scope.administradores = res;
+  });
 
-  $scope.infoUser = function(){
-    if($routeParams.index == ":index2"){
-      $scope.title = "Editar Usuário";
-      var Info = $resource('/usuarios/infoUsuario');
-      if(Info){
-        Info.query(function(res){
-          angular.forEach(res, function(value){
-            $scope.usuario = {login : value.login, email: value.email, senha: value.senha, nivel:value.nivel};
-          });
+  if($routeParams.index == ":index2"){
+    $scope.title = "Editar Usuário";
+    if(Info){
+      Info.query(function(res){
+        $scope.userLogado = res;
+        angular.forEach(res, function(value){
+          $scope.usuario = {login : value.login, email: value.email, senha: value.senha, nivel:value.nivel};
         });
-      }
+      });
     }
   }
 
 
   $scope.controlUser = function(){
     var Usuario = $resource('/usuarios/novoUsuario');
-    var EditarUsuario = $resource('/usuarios/editarUsuario');
-
     var editUser = new EditarUsuario();
     var newUser = new Usuario();
 
@@ -61,9 +69,10 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
       logUser.senha = $scope.usuario.senha;
       logUser.$save().then(function(sucess){
         obterUsuario.query(function(doc){
-          angular.forEach(doc, function(value){
+          angular.forEach(doc, function(value, key){
             if($scope.usuario.login == value.login && $scope.usuario.senha == value.senha){
               $scope.usuario.nivel = value.nivel;
+              $scope.userLogado = value;
               $scope.message = "";
               console.log("Usuario logado com sucesso");
             } else {
@@ -79,7 +88,34 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
     var Deslogar = $resource('/usuarios/destruirSession');
     sair = new Deslogar();
     sair.$save();
+    $scope.userLogado.splice(0, 1)
   }
+
+  EditarNivel = $resource('/usuarios/editarNivel');
+
+  $scope.permissao = function(){
+    var editUser = new EditarNivel();
+    editUser._id = $scope.adm.permissao;
+    editUser.$save();
+    userPadrao.query(function(res) {
+      angular.forEach(res, function(value,key){
+        if(value._id == editUser._id){
+          $scope.administradores.push(value)
+          $scope.usuarios.splice(key,1)
+        }
+      })
+    });
+    console.log("permissao concedida")
+  }
+
+  $scope.removerAdmin = function(admin, index){
+    var editUser = new EditarNivel();
+    editUser._id = admin._id;
+    editUser.nivel = admin.nivel;
+    editUser.$save();
+    $scope.usuarios.push(admin);
+    $scope.administradores.splice(index,1);
+   }
 
 
 });

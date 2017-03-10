@@ -4,7 +4,6 @@ module.exports = function(app){
 
 
   // Rotas de controle Fruta
-
   app.get('/fruteiras/list', controllerFruit.listarFruta);
   app.get('/fruteiras/list/:id', controllerFruit.obterFruta);
   app.post('/fruteiras/remove', controllerFruit.removerFruta);
@@ -22,7 +21,11 @@ module.exports = function(app){
   app.post('/usuarios/logarUsuario', controllerUser.logarUsuario);
   app.post('/usuarios/destruirSession', controllerUser.destruirSession);
   app.post('/usuarios/editarUsuario', controllerUser.editarUsuario);
-  app.post('/usuarios/editarNivel', controllerUser.editarNivel);
+  app.post('/usuarios/editarNivel', controllerUser.editarNivel)
+
+  // Ritas da nota fiscal
+  app.get('/ntFiscal/verHistorico', controllerUser.verHistorico);
+
 
 
 

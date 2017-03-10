@@ -15,11 +15,10 @@ module.exports = function(app){
   controller.obterFruta = function(req, res){
     var _id = req.params._id;
     Fruteira.findOne({"_id" : _id}).exec( function(erro, frutas) {
-        if (frutas) {
-          res.json(frutas)
-        }
+      if (frutas) {
+        res.json(frutas)
       }
-    );
+    });
   };
 
   controller.listarFruta = function(req, res){

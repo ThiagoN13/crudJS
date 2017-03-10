@@ -124,6 +124,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
             fruta.quantidade = value.quantidade - fruta.quantidade;
             attFruit._id = fruta._id;
             attFruit.quantidade = fruta.quantidade;
+            console.log(value)
             attFruit.$save().then(function(sucess){
               console.log("atualizado");
             });

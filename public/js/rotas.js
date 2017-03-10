@@ -11,6 +11,10 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'listController',
     templateUrl:'./home.html'
   })
+	.when('/historico',{
+    controller:'historico',
+    templateUrl:'./historico.html'
+  })
   .otherwise({
     redirectTo:'/home/:index'
   });

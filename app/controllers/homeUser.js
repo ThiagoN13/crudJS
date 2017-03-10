@@ -1,7 +1,26 @@
 module.exports = function(app){
   var Usuario = app.models.usuario;
+  var NtFiscal = app.models.ntFiscal;
 
   var controller = {};
+
+  controller.verHistorico = function(req, res){
+    var id = req.session.usuario.id;
+    console.log(id);
+    NtFiscal.findOne({"_id" : id}).exec( function(erro, sucess) {
+      if (sucess) {
+        res.json(sucess)
+      }
+    });
+  }
+
+  controller.addHistorico = function(req, res){
+    carrinho.frutas = {};
+    var historico = new NtFiscal({"data": new Date(), "total": carrinho.total, "carrinho": carrinho.frutas});
+    historico.save().then( function(result){
+      console.log(result);
+    })
+  }
 
   controller.novoUsuario = function(req, res){
     var userReq = req.body;

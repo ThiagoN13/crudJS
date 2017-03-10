@@ -119,3 +119,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
 
 
 });
+
+
+app.controller("historico", function($scope, $resource, $location, $routeParams){
+});

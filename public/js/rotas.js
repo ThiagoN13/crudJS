@@ -11,7 +11,7 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'listController',
     templateUrl:'./home.html'
   })
-	.when('/historico',{
+	.when('/historico/:id',{
     controller:'historico',
     templateUrl:'./historico.html'
   })

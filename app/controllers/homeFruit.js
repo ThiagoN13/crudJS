@@ -52,23 +52,13 @@ module.exports = function(app){
   };
 
   controller.editarFruta = function(req, res){
-    var _id = req.body.id;
+    var _id = req.body._id;
     var frutaReq = req.body
-    Fruteira.findOne({"_id" : _id}).where('ativo', true).exec( function(erro, fruta) {
-        if (fruta) {
-          fruta.nome = frutaReq.nome;
-          fruta.quantidade = frutaReq.quantidade;
-          fruta.preco = frutaReq.preco;
-          fruta.atualizacao = new Date();
-          fruta.save(function(erro){
-            if (erro) {
-              return new Error(erro)
-            }
-            res.json(fruta)
-          });
-        }
-      }
-    );
+    Fruteira.update({"_id" : _id}, {$set: {nome:frutaReq.nome, quantidade: frutaReq.quantidade, preco:frutaReq.preco, ativo:true, atualizacao: new Date()}})
+    .exec( function(erro, doc) {
+      console.log("Fruta alterada");
+      console.log(doc);
+      });
   }
 
   return controller;

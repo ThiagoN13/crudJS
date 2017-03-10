@@ -12,6 +12,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
 
   Info.query(function(res) {
     $scope.userLogado = res;
+    $scope.userLogado.ativo = true;
   });
   userPadrao.query(function(res) {
     $scope.usuarios = res;
@@ -73,6 +74,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
             if($scope.usuario.login == value.login && $scope.usuario.senha == value.senha){
               $scope.usuario.nivel = value.nivel;
               $scope.userLogado = value;
+              $scope.userLogado = true;
               $scope.message = "";
               console.log("Usuario logado com sucesso");
             } else {
@@ -91,21 +93,19 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
     $scope.userLogado.splice(0, 1)
   }
 
-  EditarNivel = $resource('/usuarios/editarNivel');
+  var EditarNivel = $resource('/usuarios/editarNivel');
 
-  $scope.permissao = function(){
+  $scope.permissao = function(user){
     var editUser = new EditarNivel();
     editUser._id = $scope.adm.permissao;
     editUser.$save();
-    userPadrao.query(function(res) {
-      angular.forEach(res, function(value,key){
+      angular.forEach(user, function(value,key){
         if(value._id == editUser._id){
           $scope.administradores.push(value)
           $scope.usuarios.splice(key,1)
+          console.log("permissao concedida")
         }
       })
-    });
-    console.log("permissao concedida")
   }
 
   $scope.removerAdmin = function(admin, index){
@@ -122,4 +122,19 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
 
 
 app.controller("historico", function($scope, $resource, $location, $routeParams){
+  var historico = $resource('/ntFiscal/verHistorico');
+  var carrinho = $resource('/ntFiscal/obterHistorico/:id');
+  historico.query(function(res) {
+    $scope.notaFiscal = res;
+    $scope.fruta = [];
+    console.log($routeParams.id)
+    angular.forEach(res, function(value){
+        if(value._id == $routeParams.id){
+          $scope.fruta = value;
+          $scope.total = value.total;
+          console.log($scope.fruta)
+        }
+    });
+  });
+
 });

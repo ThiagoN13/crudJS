@@ -25,8 +25,7 @@ module.exports = function(app){
 
   // Ritas da nota fiscal
   app.get('/ntFiscal/verHistorico', controllerUser.verHistorico);
-
-
+  app.post('/ntFiscal/addHistorico', controllerUser.addHistorico)
 
 
 }

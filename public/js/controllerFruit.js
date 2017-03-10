@@ -114,23 +114,33 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
   }
 
   $scope.attEstoque = function(){
-    var attQuantidade = $resource('/fruteiras/atualizaEstoque');
-    var attFruit = new attQuantidade();
+    var AttQuantidade = $resource('/fruteiras/atualizaEstoque');
+    var AddHistorico = $resource('/ntFiscal/addHistorico');
+    var ntFiscal = new AddHistorico();
+    ntFiscal.total = $scope.carrinho.total;
+    ntFiscal.carrinho = [];
+    var attFruit = new AttQuantidade();
     verificaCompra();
     if(vCompra){
-      angular.forEach(qtdEstoque, function(value){
+      angular.forEach(qtdEstoque, function(value,key){
         angular.forEach($scope.fruits, function(fruta){
           if(value.nome == fruta.nome){
             fruta.quantidade = value.quantidade - fruta.quantidade;
+            var quantidade = value.quantidade - fruta.quantidade;
+            ntFiscal.carrinho.push({nome: value.nome, quantidade:quantidade, preco: fruta.preco})
             attFruit._id = fruta._id;
             attFruit.quantidade = fruta.quantidade;
-            console.log(value)
             attFruit.$save().then(function(sucess){
               console.log("atualizado");
             });
+            $scope.carrinho.splice(key,1);
+            calcTot();
           }
         });
       });
+      ntFiscal.$save().then(function(sucess){
+        console.log("enviado");
+      })
     };
   }
 
@@ -141,13 +151,12 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
 app.controller('controlFruit', function ($scope, $location, $routeParams, $resource) {
   if($routeParams.index == ":index2"){
     $scope.title = "Nova Fruta";
+    console.log($routeParams.index);
   }
   else {
-    console.log($routeParams.index);
     $scope.title = "Editar Fruta";
     var Fruta = $resource('/fruteiras/list/:id');
     Fruta.query(function(res) {
-      console.log()
       angular.forEach(res, function(value){
           if(value._id == $routeParams.index){
             $scope.fruta = {nome : value.nome, quantidade:value.quantidade, preco:value.preco};
@@ -158,8 +167,7 @@ app.controller('controlFruit', function ($scope, $location, $routeParams, $resou
 
   $scope.submit = function(){
     var Fruta = $resource('/fruteiras/inserir');
-    console.log($routeParams.id);
-    if($routeParams.id == ":index"){
+    if($routeParams.index == ":index2"){
       if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
         $scope.fruits.push($scope.fruta);
         fruta = new Fruta();
@@ -172,12 +180,11 @@ app.controller('controlFruit', function ($scope, $location, $routeParams, $resou
         $scope.message = "Erro ao cadastrar fruta";
       }
     }
-    if($routeParams.id != ":index"){
+    else{
       if(angular.isNumber($scope.fruta.quantidade) && angular.isString($scope.fruta.nome)){
         var FrutaRes = $resource('/fruteiras/update')
         var editar = new FrutaRes();
-        console.log("editar");
-        editar._id = $routeParams.id;
+        editar._id = $routeParams.index;
         editar.nome = $scope.fruta.nome;
         editar.quantidade = $scope.fruta.quantidade;
         editar.preco = $scope.fruta.preco;

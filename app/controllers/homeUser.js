@@ -7,7 +7,7 @@ module.exports = function(app){
   controller.verHistorico = function(req, res){
     var id = req.session.usuario.id;
     console.log(id);
-    NtFiscal.findOne({"_id" : id}).exec( function(erro, sucess) {
+    NtFiscal.find({"comprador" : id}).exec( function(erro, sucess) {
       if (sucess) {
         res.json(sucess)
       }
@@ -15,9 +15,15 @@ module.exports = function(app){
   }
 
   controller.addHistorico = function(req, res){
-    carrinho.frutas = {};
-    var historico = new NtFiscal({"data": new Date(), "total": carrinho.total, "carrinho": carrinho.frutas});
+    var fruta = req.body;
+    fruta.comprador = req.session.usuario.id
+    console.log(fruta.comprador)
+    var historico = new NtFiscal({
+      "data": new Date(), "total": fruta.total,"comprador": fruta.comprador,
+       "carrinho": fruta.carrinho});
+    console.log(historico)
     historico.save().then( function(result){
+      console.log("efetivado")
       console.log(result);
     })
   }
@@ -50,7 +56,7 @@ module.exports = function(app){
             nivel: value.nivel,
             ativo: true
           }
-          res.json({user})
+          res.json(req.session.usuario)
         })
     }
   })
@@ -86,7 +92,6 @@ module.exports = function(app){
 
   controller.editarNivel = function(req, res){
     var userReq = req.body;
-    console.log(userReq.nivel)
     if(userReq.nivel == 1) userReq.nivel = 0
     else userReq.nivel = 1
     console.log(userReq.nivel)
@@ -102,7 +107,7 @@ module.exports = function(app){
     if(req.session.usuario != undefined){
       Usuario.findOne({"login":req.session.usuario.login}).where().exec( function(erro, user) {
         if(user){
-          res.json([user]);
+          res.json([req.session.usuario]);
         }
       })
     }

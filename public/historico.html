@@ -8,10 +8,13 @@
     </tr>
   </thead>
   <tbody>
-
-    <tr>
-        <td class="text-center">29/09</td>
-        <td class="text-center"> <a style="color: gray;" href="" data-target="#historico" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
+    <tr ng-repeat="nota in notaFiscal">
+        <td class="text-center">{{nota.data | date:"dd/MM/yyyy hh:mm"}}</td>
+        <td class="text-center">
+          <a style="color: gray;" href="#!/historico/{{nota._id}}" data-target="#historico" data-toggle="modal">
+            <i class="glyphicon glyphicon-shopping-cart"></i>
+          </a>
+        </td>
     </tr>
   </tbody>
 </table>
@@ -20,7 +23,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <h4 class="modal-title">Historico</h4>
       </div>
       <div class="modal-body">
@@ -33,16 +38,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="fruit in carrinho | filter:{nome:pesquisa} || 'nome'" >
-                <td class="text-center" ng-if="fruit.disponivel">{{fruit.nome}}</td>
-                <td class="text-center" ng-if="fruit.disponivel">{{fruit.preco | currency}}</td>
-                <td class="text-center" ng-if="fruit.disponivel">{{fruit.quantidade}}</td>
+            <tr ng-repeat="lista in fruta.carrinho">
+                <td class="text-center">{{lista.nome}}</td>
+                <td class="text-center">{{lista.preco}}</td>
+                <td class="text-center">{{lista.quantidade}}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
-        <strong class="pull-left">Total: {{carrinho.total | currency}}</strong>
+        <strong class="pull-left">Total: {{total | currency}}</strong>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
       </div>
     </div>

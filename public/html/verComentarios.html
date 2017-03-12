@@ -1,0 +1,46 @@
+<h1>Ver comentarios</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th class="text-center col-sm-5">Data</th>
+      <th class="text-center ">Assunto</th>
+      <th class="text-center ">Comentario</th>
+      <th class="text-center ">Responder</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="coments in comentarios">
+        <td class="text-center">{{coments.data | date:"dd/MM/yyyy hh:mm"}}</td>
+        <td class="text-center">{{coments.assunto}}</td>
+        <td class="text-center">{{coments.sugestao}}</td>
+        <td class="text-center">
+          <a style="color: gray;" href="#!/vercomentario/{{coments._id}}" data-target="#comentario" data-toggle="modal">
+            <i class="glyphicon glyphicon glyphicon-edit"></i>
+          </a>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="modal fade" id="comentario" data-backdrop="static" role="dialog" data-show="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="#!/list/" class="close" data-dismiss="modal">&times;</a>
+        <h1 class="modal-title">{{title}}</h1>
+      </div>
+      <div class="modal-body">
+        <form name="myForm" class="form-group" >
+            <div class="form-group">
+              <label for="resposta">Resposta</label>
+              <input type="text" name="fruta" ng-model="comentario.resposta" id="resposta" class="form-control" required />
+            </div>
+            <div class="modal-footer">
+              <input ng-click="submit();" value="Finalizar" class="btn btn-default pull-right" ng-disabled="myForm.$invalid" data-dismiss="modal"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

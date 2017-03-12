@@ -15,6 +15,14 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'historico',
     templateUrl:'./html/historico.html'
   })
+	.when('/comentario/',{
+    controller:'comentario',
+    templateUrl:'./html/comentario.html'
+  })
+	.when('/vercomentario/:coments',{
+    controller:'comentario',
+    templateUrl:'./html/verComentarios.html'
+  })
   .otherwise({
     redirectTo:'/home/:index'
   });

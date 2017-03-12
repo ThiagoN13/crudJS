@@ -26,6 +26,11 @@
         <li><a href="#!/list/:index2" data-target="#formPermissao" data-toggle="modal" ng-repeat="user in userLogado" ng-if="user.nivel == 1">
           Conceder permissão</a></li>
         <li><a href="#!/historico/:index" ng-repeat="user in userLogado" ng-if="user.ativo">Historico de compra</a></li>
+        <li><a href="#!/vercomentario/:coments" ng-repeat="user in userLogado" ng-if="user.nivel == 1">Ver mensagens</a></li>
+        <li><a href="#!/comentario" ng-repeat="user in userLogado" ng-if="user.ativo">Fale conosco</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav pull-right">
         <li><a href="" id="menu1" data-toggle="dropdown" ng-repeat="user in userLogado" ng-if="user.ativo">Configuração</a>
           <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" ng-repeat="user in userLogado" ng-if="user.ativo">
             <li role="presentation">
@@ -37,6 +42,7 @@
           </ul>
         </li>
       </ul>
+
     </div>
   </nav>
 

@@ -12,7 +12,6 @@ module.exports = function(app){
   app.post('/fruteiras/atualizaEstoque', controllerFruit.atualizaEstoque);
 
   // Rotas de controle do usuario
-
   app.get('/usuarios/obterUsuario', controllerUser.obterUsuario);
   app.get('/usuarios/obterAdmin', controllerUser.obterAdmin);
   app.get('/usuarios/usuarioPadrao', controllerUser.usuarioPadrao);
@@ -23,9 +22,13 @@ module.exports = function(app){
   app.post('/usuarios/editarUsuario', controllerUser.editarUsuario);
   app.post('/usuarios/editarNivel', controllerUser.editarNivel)
 
-  // Ritas da nota fiscal
+  // Rotas da nota fiscal
   app.get('/ntFiscal/verHistorico', controllerUser.verHistorico);
-  app.post('/ntFiscal/addHistorico', controllerUser.addHistorico)
+  app.post('/ntFiscal/addHistorico', controllerUser.addHistorico);
+
+  // Rotas do comentario
+  app.post('/comentario/addComentario', controllerUser.addComentario);
+  app.get('/comentario/obterComentario', controllerUser.obterComentario)
 
 
 }

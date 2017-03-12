@@ -1,12 +1,27 @@
 module.exports = function(app){
   var Usuario = app.models.usuario;
   var NtFiscal = app.models.ntFiscal;
+  var Comentario = app.models.comentario;
 
   var controller = {};
 
+  controller.addComentario = function(req, res){
+    var comentarioReq = req.body;
+    var addComentario = new Comentario({"usuario": req.session.usuario.id, "assunto": comentarioReq.assunto,
+     "sugestao": comentarioReq.sugestao, "data": new Date()});
+    addComentario.save().then( function(result){
+       console.log(result);
+     })
+  }
+
+  controller.obterComentario = function(req, res){
+    Comentario.find({}).where().exec(function(erro, sucess){
+      res.json(sucess);
+    })
+  }
+
   controller.verHistorico = function(req, res){
     var id = req.session.usuario.id;
-    console.log(id);
     NtFiscal.find({"comprador" : id}).exec( function(erro, sucess) {
       if (sucess) {
         res.json(sucess)
@@ -17,13 +32,10 @@ module.exports = function(app){
   controller.addHistorico = function(req, res){
     var fruta = req.body;
     fruta.comprador = req.session.usuario.id
-    console.log(fruta.comprador)
     var historico = new NtFiscal({
       "data": new Date(), "total": fruta.total,"comprador": fruta.comprador,
        "carrinho": fruta.carrinho});
-    console.log(historico)
     historico.save().then( function(result){
-      console.log("efetivado")
       console.log(result);
     })
   }

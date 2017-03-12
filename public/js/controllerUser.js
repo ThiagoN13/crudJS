@@ -127,14 +127,28 @@ app.controller("historico", function($scope, $resource, $location, $routeParams)
   historico.query(function(res) {
     $scope.notaFiscal = res;
     $scope.fruta = [];
-    console.log($routeParams.id)
     angular.forEach(res, function(value){
         if(value._id == $routeParams.id){
           $scope.fruta = value;
           $scope.total = value.total;
-          console.log($scope.fruta)
         }
     });
+  });
+
+});
+
+app.controller("comentario", function($scope, $resource, $location, $routeParams){
+  $scope.addComentario = function(){
+    var Comentario = $resource('/comentario/addComentario');
+    addComentario = new Comentario();
+    addComentario.assunto = $scope.comentario.assunto;
+    addComentario.sugestao = $scope.comentario.sugestao;
+    addComentario.$save();
+  }
+
+  var obterComentario = $resource('/comentario/obterComentario');
+  obterComentario.query(function(res) {
+    $scope.comentarios = res;
   });
 
 });

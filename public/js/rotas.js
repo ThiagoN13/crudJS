@@ -5,15 +5,15 @@ app.config(['$routeProvider',function($routeProvider){
 	$routeProvider
   .when('/list/:index',{
     controller:'listController',
-    templateUrl:'./list.html'
+    templateUrl:'./html/list.html'
   })
   .when('/home/:index',{
     controller:'listController',
-    templateUrl:'./home.html'
+    templateUrl:'./html/home.html'
   })
 	.when('/historico/:id',{
     controller:'historico',
-    templateUrl:'./historico.html'
+    templateUrl:'./html/historico.html'
   })
   .otherwise({
     redirectTo:'/home/:index'

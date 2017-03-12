@@ -10,8 +10,8 @@
 <h1>Loja</h1>
 <hr/>
 
-<div ng-include="'carrinho.html'"></div>
-<div ng-include="'login.html'"></div>
+<div ng-include="'./html/carrinho.html'"></div>
+<div ng-include="'./html/login.html'"></div>
 
 
 <ul class="list-group col-sm-3" ng-repeat="fruta in fruits | filter:{nome:pesquisa} || 'nome'">

@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="nota in notaFiscal">
-        <td class="text-center">{{nota.data | date:"dd/MM/yyyy hh:mm"}}</td>
+        <td class="text-center">{{nota.data | date:"dd/MM/yyyy hh:mm "}}</td>
         <td class="text-center">
           <a style="color: gray;" href="#!/historico/{{nota._id}}" data-target="#historico" data-toggle="modal">
             <i class="glyphicon glyphicon-shopping-cart"></i>

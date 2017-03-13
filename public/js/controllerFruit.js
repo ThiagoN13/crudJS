@@ -5,6 +5,24 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
   var FrutaRemove = $resource('/fruteiras/remove');
   var deleteFruit = new FrutaRemove();
 
+  $scope.users = [];
+      $scope.totalFruits = 0;
+      getResultsPage(1);
+
+      $scope.pagination = {
+          current: 1
+      };
+
+      $scope.pageChanged = function(newPage) {
+          getResultsPage(newPage);
+      };
+    function getResultsPage(pageNumber) {
+      Fruta.query(function(res) {
+        $scope.fruits = res;
+        $scope.totalFruits = $scope.fruits.length
+      });
+    }
+
   Fruta.query(function(res) {
     $scope.fruits = res;
   });
@@ -101,6 +119,7 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
       if(!$scope.carrinho.qtdCarrinho) $scope.carrinho.qtdCarrinho = 1;
       $scope.carrinho[$scope.carrinho.length-1].quantidade = $scope.carrinho.qtdCarrinho;
       $scope.carrinho[$scope.carrinho.length-1].disponivel = true;
+      $cookieStore.put('carrinho', $scope.carrinho);
       $scope.carrinho.qtdCarrinho = "";
       var total = calcTot();
     } else {

@@ -21,7 +21,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
     $scope.administradores = res;
   });
 
-  if($routeParams.index == ":index2"){
+  if($routeParams){
     $scope.title = "Editar Usuário";
     if(Info){
       Info.query(function(res){
@@ -77,6 +77,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
               $scope.userLogado = true;
               $scope.message = "";
               console.log("Usuario logado com sucesso");
+              window.location.href = "/";
             } else {
               $scope.message = "O login e senha informado estao incorretos";
             }
@@ -91,6 +92,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
     sair = new Deslogar();
     sair.$save();
     $scope.userLogado.splice(0, 1)
+    window.location.href = "/";
   }
 
   var EditarNivel = $resource('/usuarios/editarNivel');
@@ -124,6 +126,11 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
 app.controller("historico", function($scope, $resource, $location, $routeParams){
   var historico = $resource('/ntFiscal/verHistorico');
   var carrinho = $resource('/ntFiscal/obterHistorico/:id');
+  var Fruta = $resource('/fruteiras/list');
+
+  Fruta.query(function(res) {
+    $scope.fruits = res;
+  });
   historico.query(function(res) {
     $scope.notaFiscal = res;
     $scope.fruta = [];
@@ -135,9 +142,36 @@ app.controller("historico", function($scope, $resource, $location, $routeParams)
     });
   });
 
+  // $scope.calcLucros = function(fruta){
+  //   angular.forEach(res, function(value){
+  //     $scope.count = 0;
+  //     angular.forEach($scope.fruits, function(key){
+  //       angular.forEach(value.carrinho, function(fruta){
+  //         if(fruta.nome = key.nome){
+  //           $scope.count = $scope.count + 1;
+  //           console.log($scope.count)
+  //         }
+  //       })
+  //     })
+  //   }
+  // })
 });
 
 app.controller("comentario", function($scope, $resource, $location, $routeParams){
+  var Info = $resource('/usuarios/infoUsuario');
+  var obterComentario = $resource('/comentario/obterComentario');
+  var todosComentarios = $resource('/comentario/todosComentarios');
+
+  Info.query(function(res) {
+    $scope.userLogado = res;
+  });
+  obterComentario.query(function(res) {
+    $scope.comentarios = res;
+  });
+  todosComentarios.query(function(res) {
+    $scope.coments = res;
+  });
+
   $scope.addComentario = function(){
     var Comentario = $resource('/comentario/addComentario');
     addComentario = new Comentario();
@@ -146,9 +180,13 @@ app.controller("comentario", function($scope, $resource, $location, $routeParams
     addComentario.$save();
   }
 
-  var obterComentario = $resource('/comentario/obterComentario');
-  obterComentario.query(function(res) {
-    $scope.comentarios = res;
-  });
+
+  $scope.addResposta = function(){
+    var addResposta = $resource('/comentario/addResposta');
+    var Resposta = new addResposta();
+    Resposta._id = $routeParams.coments;
+    Resposta.resposta = $scope.comentario.resposta;
+    Resposta.$save();
+  }
 
 });

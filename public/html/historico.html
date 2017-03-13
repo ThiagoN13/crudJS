@@ -40,7 +40,7 @@
           <tbody>
             <tr ng-repeat="lista in fruta.carrinho">
                 <td class="text-center">{{lista.nome}}</td>
-                <td class="text-center">{{lista.preco}}</td>
+                <td class="text-center">{{lista.preco | currency: "R$ "}}</td>
                 <td class="text-center">{{lista.quantidade}}</td>
             </tr>
           </tbody>

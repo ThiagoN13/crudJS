@@ -1,5 +1,5 @@
 //Criação ao $app que é o modulo que representa toda a aplicação
-var app = angular.module('app',['ngRoute', 'ngResource']);
+var app = angular.module('app',['ngRoute', 'ngResource','angularUtils.directives.dirPagination']);
 
 app.config(['$routeProvider',function($routeProvider){
 	$routeProvider
@@ -7,7 +7,7 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'listController',
     templateUrl:'./html/list.html'
   })
-  .when('/home/:index',{
+  .when('/',{
     controller:'listController',
     templateUrl:'./html/home.html'
   })
@@ -15,7 +15,7 @@ app.config(['$routeProvider',function($routeProvider){
     controller:'historico',
     templateUrl:'./html/historico.html'
   })
-	.when('/comentario/',{
+	.when('/comentario/:id',{
     controller:'comentario',
     templateUrl:'./html/comentario.html'
   })
@@ -24,7 +24,7 @@ app.config(['$routeProvider',function($routeProvider){
     templateUrl:'./html/verComentarios.html'
   })
   .otherwise({
-    redirectTo:'/home/:index'
+    redirectTo:'/'
   });
   app.run(['$rootScope', function($rootScope) {
     console.log('app.run');

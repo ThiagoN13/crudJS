@@ -14,8 +14,14 @@ module.exports = function(app){
      })
   }
 
+  controller.todosComentarios = function(req, res){
+    Comentario.find({}).populate('usuario').where().exec(function(erro, sucess){
+      res.json(sucess);
+    })
+  }
+
   controller.obterComentario = function(req, res){
-    Comentario.find({}).where().exec(function(erro, sucess){
+    Comentario.find({}).populate('usuario').where("ativo",true).exec(function(erro, sucess){
       res.json(sucess);
     })
   }
@@ -111,6 +117,19 @@ module.exports = function(app){
         Usuario.update({"_id" : userReq._id}, {$set: {nivel: userReq.nivel}})
           .exec( function(erro, doc) {
             console.log(doc);
+        });
+      }
+  }
+
+  controller.addResposta = function(req, res){
+    var resposta = req.body;
+    if(resposta){
+        Comentario.update({_id : resposta._id}, {$set: {respostas: resposta.resposta}})
+          .exec( function(erro, doc) {
+            console.log(doc);
+            Comentario.update({_id : resposta._id}, {$set: {ativo: false}}).exec( function(erro, doc) {
+              console.log(doc);
+            });
         });
       }
   }

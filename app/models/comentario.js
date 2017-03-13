@@ -5,6 +5,7 @@ module.exports = function(){
     usuario:{
       type: String,
       required: true,
+      ref: 'usuario'
     },
     assunto:{
       type: String,
@@ -18,10 +19,14 @@ module.exports = function(){
       type: Date,
       required: true,
     },
-    respostas:[{
-      resposta: {type: String}
-    }]
-  }, {collection:"comentario"});
+    ativo:{
+      type: String,
+      default: true
+    },
+    respostas:{
+      type: String
+    }
+    }, {collection:"comentario"});
 
   return mongoose.model('comentario', comentarioDb);
 }

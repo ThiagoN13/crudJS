@@ -28,7 +28,11 @@ module.exports = function(app){
 
   // Rotas do comentario
   app.post('/comentario/addComentario', controllerUser.addComentario);
-  app.get('/comentario/obterComentario', controllerUser.obterComentario)
+  app.post('/comentario/addResposta', controllerUser.addResposta);
+  app.get('/comentario/obterComentario', controllerUser.obterComentario);
+  app.get('/comentario/todosComentarios', controllerUser.todosComentarios)
+
+
 
 
 }

@@ -18,17 +18,22 @@
           <tbody>
             <tr ng-repeat="fruit in carrinho | filter:{nome:pesquisa} || 'nome'" >
                 <td class="text-center" ng-if="fruit.disponivel">{{fruit.nome}}</td>
-                <td class="text-center" ng-if="fruit.disponivel">{{fruit.preco | currency}}</td>
+                <td class="text-center" ng-if="fruit.disponivel">{{fruit.preco | currency: "R$ "}}</td>
                 <td class="text-center" ng-if="fruit.disponivel">{{fruit.quantidade}}</td>
                 <td class="text-center" ng-if="fruit.disponivel"> <a style="color: red;" ng-click="removeCarrinho(fruit, $index)"> <i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="modal-footer">
-        <strong class="pull-left">Total: {{carrinho.total | currency}}</strong>
+      <div class="modal-footer" ng-controller="controlAcess">
+        <strong class="pull-left">Total: {{carrinho.total | currency: "R$ "}}</strong>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="attEstoque();">Comprar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="attEstoque();" ng-disabled="carrinho.length == 0 && userLogado">Comprar</button>
+        <div class="col-sm-7">
+          <div ng-if="!userLogado" class="alert alert-warning text-center">
+            Para efetuar a compra voce precisa estar logado!
+          </div>
+        </div>
       </div>
     </div>
   </div>

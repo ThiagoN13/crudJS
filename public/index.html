@@ -2,23 +2,24 @@
   <head>
     <title>CrudJS</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-resource.js"></script>
-    <script src="../bower_components/angular-locale-pt-br/angular-locale-pt-br"></script>
     <script src="js/rotas.js"></script>
     <script src="js/controllerUser.js"></script>
     <script src="js/controllerFruit.js"></script>
+    <script src="js/paginacao.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
 
-  <nav class="navbar navbar-default" >
-    <div class="container-fluid" ng-controller="controlAcess">
+  <nav class="navbar navbar-default" ng-controller="controlAcess">
+    <div class="container-fluid" >
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#!/home/:index">Loja</a></li>
-        <li><a href="#!/home/index2" data-target="#controllUser" data-toggle="modal" ng-if="!userLogado">
+        <li class="active"><a href="#!/">Loja</a></li>
+        <li><a href="#!/" data-target="#controllUser" data-toggle="modal" ng-if="!userLogado">
           Entrar ou criar uma nova conta</a></li>
         <li><a href="#!/list/:index2" ng-repeat="user in userLogado" ng-if="user.nivel == 1">Lista de frutas</a></li>
         <li><a href="#!/list/:index2" data-target="#form" data-toggle="modal" ng-repeat="user in userLogado" ng-if="user.nivel == 1">
@@ -27,28 +28,29 @@
           Conceder permissão</a></li>
         <li><a href="#!/historico/:index" ng-repeat="user in userLogado" ng-if="user.ativo">Historico de compra</a></li>
         <li><a href="#!/vercomentario/:coments" ng-repeat="user in userLogado" ng-if="user.nivel == 1">Ver mensagens</a></li>
-        <li><a href="#!/comentario" ng-repeat="user in userLogado" ng-if="user.ativo">Fale conosco</a></li>
       </ul>
-
       <ul class="nav navbar-nav pull-right">
         <li><a href="" id="menu1" data-toggle="dropdown" ng-repeat="user in userLogado" ng-if="user.ativo">Configuração</a>
           <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" ng-repeat="user in userLogado" ng-if="user.ativo">
             <li role="presentation">
               <div ng-repeat="user in userLogado" class="text-center"><span class="glyphicon glyphicon-user"></span> {{user.login}}</div>
               <hr />
-              <a href="#!/home/:index2" role="menuitem" data-target="#cadastraUser" data-toggle="modal">Editar Informações</a>
-              <a href="#!/home/:index" role="menuitem" ng-click="deslogar();">Sair</a>
+              <a href="#!/{{user.id}}" role="menuitem" data-target="#cadastraUser" data-toggle="modal">Editar Informações</a>
+              <a href="#!/" role="menuitem" ng-click="deslogar();">Sair</a>
             </li>
           </ul>
         </li>
       </ul>
-
     </div>
   </nav>
 
   <div class="container">
       <div ng-view ></div>
   </div>
-<div ng-include="'./html/formPermissao.html'"></div>
+  <div ng-include="'./html/formPermissao.html'"></div>
+  <div class="footer" ng-controller="controlAcess">
+    <a href="#!/comentario/:{{user.id}}" ng-repeat="user in userLogado" ng-if="user.ativo">Fale conosco</a><br/>
+    Sistema desenvolvido por Thiago Nogueira
+  </div>
   </body>
 </html>

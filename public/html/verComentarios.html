@@ -3,7 +3,8 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th class="text-center col-sm-5">Data</th>
+      <th class="text-center ">Data</th>
+      <th class="text-center ">Usuario/Email</th>
       <th class="text-center ">Assunto</th>
       <th class="text-center ">Comentario</th>
       <th class="text-center ">Responder</th>
@@ -12,6 +13,7 @@
   <tbody>
     <tr ng-repeat="coments in comentarios">
         <td class="text-center">{{coments.data | date:"dd/MM/yyyy hh:mm"}}</td>
+        <td class="text-center">{{coments.usuario.login}} - {{coments.usuario.email}}</td>
         <td class="text-center">{{coments.assunto}}</td>
         <td class="text-center">{{coments.sugestao}}</td>
         <td class="text-center">
@@ -34,10 +36,10 @@
         <form name="myForm" class="form-group" >
             <div class="form-group">
               <label for="resposta">Resposta</label>
-              <input type="text" name="fruta" ng-model="comentario.resposta" id="resposta" class="form-control" required />
+              <textarea type="text" name="fruta" ng-model="comentario.resposta" id="resposta" class="form-control" required ></textarea>
             </div>
             <div class="modal-footer">
-              <input ng-click="submit();" value="Finalizar" class="btn btn-default pull-right" ng-disabled="myForm.$invalid" data-dismiss="modal"/>
+              <input ng-click="addResposta();" value="Responder" class="btn btn-default pull-right" ng-disabled="myForm.$invalid" data-dismiss="modal"/>
             </div>
           </form>
         </div>

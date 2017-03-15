@@ -44,6 +44,11 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
     }
   })
 
+  $scope.status = true;
+  $scope.mudaStatus = function(){
+    $scope.status = !$scope.status;
+  }
+
   $scope.deleteOne = function(fruta, index){
     console.log("Deletando uma fruta");
     deleteFruit._id = [fruta._id];
@@ -119,7 +124,6 @@ app.controller("listController", function($routeParams, $scope, $resource, $loca
       if(!$scope.carrinho.qtdCarrinho) $scope.carrinho.qtdCarrinho = 1;
       $scope.carrinho[$scope.carrinho.length-1].quantidade = $scope.carrinho.qtdCarrinho;
       $scope.carrinho[$scope.carrinho.length-1].disponivel = true;
-      $cookieStore.put('carrinho', $scope.carrinho);
       $scope.carrinho.qtdCarrinho = "";
       var total = calcTot();
     } else {

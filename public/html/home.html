@@ -14,7 +14,7 @@
 <div ng-include="'./html/login.html'"></div>
 
 
-<ul class="list-group col-sm-3" ng-repeat="fruta in fruits | filter:{nome:pesquisa} || 'nome'">
+<ul class="list-group col-sm-3" ng-repeat="fruta in fruits | filter:{nome:pesquisa}">
   <li class="list-group-item text-center" >
     <img src="img/default.jpg" class="img-responsive img-circle" width="140" height="120" style="margin-left:20%">
     <strong>Fruta: </strong>{{fruta.nome}}<br/>

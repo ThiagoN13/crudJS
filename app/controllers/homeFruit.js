@@ -3,6 +3,7 @@ module.exports = function(app){
 
   var controller = {};
 
+
   controller.inserirFruta = function(req, res){
     var fruta = req.body;
     console.log(fruta);

@@ -3,6 +3,7 @@ module.exports = function(app){
   var controllerUser = app.controllers.homeUser;
 
 
+
   // Rotas de controle Fruta
   app.get('/fruteiras/list', controllerFruit.listarFruta);
   app.get('/fruteiras/list/:id', controllerFruit.obterFruta);

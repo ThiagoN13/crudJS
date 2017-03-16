@@ -33,12 +33,12 @@
 
     <tr dir-paginate="fruta in fruits | itemsPerPage: 7 | filter:{nome:pesquisa} " >
         <td class="text-center"><input type="checkbox" ng-model="fruta.selecionado"/></td>
-        <td class="text-center">{{fruta.nome}}</td>
+        <td class="text-center col-sm-5">{{fruta.nome}}</td>
         <td class="text-center" ng-if="status">{{fruta.preco | currency: "R$ "}}</td>
         <td class="text-center" ng-if="status" ng-class="fruta.quantidade < 10 ? 'text-danger' : 'text-success'">{{fruta.quantidade}}</td>
         <td class="text-center" ng-if="status"> <a style="color: gray;" href="#!/list/{{fruta._id}}" data-target="#form" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> </a> </td>
         <td ng-if="!status" class="text-center">
-            <div class="progress-bar progress-bar-striped active" role="progressbar"
+            <div class="progress-bar progress-bar-striped active" ng-class="fruta.quantidade < 10 ? 'progress-bar-danger' : 'progress-bar-success'" role="progressbar"
             aria-valuenow="{{fruta.quantidade}}" aria-valuemin="0" aria-valuemax="100" style="width:{{fruta.quantidade > 100 ? 100 : fruta.quantidade}}%">
               {{fruta.quantidade}}
             </div>

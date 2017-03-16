@@ -17,23 +17,24 @@
 
   <nav class="navbar navbar-default" ng-controller="controlAcess">
     <div class="container-fluid" >
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" >
         <li class="active"><a href="#!/">Loja</a></li>
-        <li><a href="#!/" data-target="#controllUser" data-toggle="modal" ng-if="!userLogado">
-          Entrar ou criar uma nova conta</a></li>
-        <li><a href="#!/list/:index2" ng-repeat="user in userLogado" ng-if="user.nivel == 1">Lista de frutas</a></li>
-        <li><a href="#!/list/:index2" data-target="#form" data-toggle="modal" ng-repeat="user in userLogado" ng-if="user.nivel == 1">
+        <li><a href="#!/list/:index2" ng-repeat="user in userLogado"  ng-if="user.nivel == 1">Lista de frutas</a></li>
+        <li><a href="#!/list/:index2" ng-repeat="user in userLogado"  data-target="#form" data-toggle="modal" ng-if="user.nivel == 1">
           Adicionar fruta</a></li>
-        <li><a href="#!/list/:index2" data-target="#formPermissao" data-toggle="modal" ng-repeat="user in userLogado" ng-if="user.nivel == 1">
+        <li><a href="#!/list/:index2" ng-repeat="user in userLogado"  data-target="#formPermissao" data-toggle="modal" ng-repeat="user in userLogado" ng-if="user.nivel == 1">
           Conceder permissão</a></li>
-        <li><a href="#!/historico/:index" ng-repeat="user in userLogado" ng-if="user.ativo">Historico de compra</a></li>
-        <li><a href="#!/vercomentario/:coments" ng-repeat="user in userLogado" ng-if="user.nivel == 1">Ver mensagens</a></li>
+        <li><a href="#!/historico/:index" ng-repeat="user in userLogado"  ng-if="user.ativo">Historico de compra</a></li>
+        <li><a href="#!/vercomentario/:coments" ng-repeat="user in userLogado"  ng-if="user.nivel == 1">Ver mensagens</a></li>
       </ul>
-      <ul class="nav navbar-nav pull-right">
+
+      <ul class="nav navbar-nav pull-right" >
+        <li ng-if="!userLogado"><a href="#!/" data-target="#controllUser" data-toggle="modal">
+          Entrar ou criar uma nova conta</a></li>
         <li><a href="" id="menu1" data-toggle="dropdown" ng-repeat="user in userLogado" ng-if="user.ativo">Configuração</a>
           <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="menu1" ng-repeat="user in userLogado" ng-if="user.ativo">
             <li role="presentation">
-              <div ng-repeat="user in userLogado" class="text-center"><span class="glyphicon glyphicon-user"></span> {{user.login}}</div>
+              <div class="text-center"><span class="glyphicon glyphicon-user"></span> {{user.login}}</div>
               <hr />
               <a href="#!/{{user.id}}" role="menuitem" data-target="#cadastraUser" data-toggle="modal">Editar Informações</a>
               <a href="#!/" role="menuitem" ng-click="deslogar();">Sair</a>
@@ -47,6 +48,7 @@
   <div class="container">
       <div ng-view ></div>
   </div>
+  
   <div ng-include="'./html/formPermissao.html'"></div>
   <div class="footer" ng-controller="controlAcess">
     <a href="#!/comentario/:{{user.id}}" ng-repeat="user in userLogado" ng-if="user.ativo">Fale conosco</a><br/>

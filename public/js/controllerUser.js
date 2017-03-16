@@ -8,11 +8,14 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
   var userAdmin = $resource('/usuarios/obterAdmin');
   var Info = $resource('/usuarios/infoUsuario');
 
+
   $scope.title = "Criar Conta";
 
   Info.query(function(res) {
-    $scope.userLogado = res;
-    $scope.userLogado.ativo = true;
+    if(res){
+      $scope.userLogado = res;
+      $scope.userLogado.ativo = true;
+    }
   });
   userPadrao.query(function(res) {
     $scope.usuarios = res;
@@ -57,6 +60,7 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
         newUser.senha = $scope.usuario.senha;
         newUser.$save();
         $location.path('/home/:index')
+        window.location.href = "/";
       }
     }
   }
@@ -69,20 +73,26 @@ app.controller("controlAcess", function($scope, $resource, $location, $routePara
       logUser.login = $scope.usuario.login;
       logUser.senha = $scope.usuario.senha;
       logUser.$save().then(function(sucess){
-        obterUsuario.query(function(doc){
-          angular.forEach(doc, function(value, key){
-            if($scope.usuario.login == value.login && $scope.usuario.senha == value.senha){
-              $scope.usuario.nivel = value.nivel;
-              $scope.userLogado = value;
-              $scope.userLogado = true;
-              $scope.message = "";
-              console.log("Usuario logado com sucesso");
-              window.location.href = "/";
-            } else {
-              $scope.message = "O login e senha informado estao incorretos";
-            }
+        if(sucess){
+          console.log(sucess)
+          obterUsuario.query(function(doc){
+            angular.forEach(doc, function(value, key){
+              if($scope.usuario.login == value.login && $scope.usuario.senha == value.senha){
+                $scope.usuario.nivel = value.nivel;
+                $scope.userLogado = value;
+                $scope.userLogado = true;
+                $scope.message = "";
+                console.log("Usuario logado com sucesso");
+                window.location.href = "/";
+              } else {
+                window.location.href = "/";
+                $scope.message = "O login e senha informado estao incorretos";
+                console.log("Errou");
+                console.log("O login e senha informado estao incorretos");
+              }
+            })
           })
-        })
+        }
       });
     }
   }

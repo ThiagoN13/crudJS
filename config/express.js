@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var cookie = require('cookie-parser');
 
+
 require('./database.js')('mongodb://localhost/fruteira');
 
 module.exports = function(){
@@ -20,7 +21,8 @@ module.exports = function(){
 
   // setando a porta do servidor
   app.set("port", 3000);
-
+  app.set("views", "./public");
+  app.set("view engine", "html");
   app.use(express.static("./public"));
 
   app.use(bodyParser.urlencoded({extended:true}));

@@ -62,23 +62,26 @@ module.exports = function(app){
   };
 
   controller.logarUsuario = function(req, res){
-    var userReq = req.body;
-    var user = new Usuario();
-    Usuario.find({'login': userReq.login}).where( 'senha', userReq.senha).exec( function(erro, user) {
-        if (user) {
-          user.forEach(function(value){
-          req.session.usuario = {
-            id: value._id,
-            login: value.login,
-            email: value.email,
-            nivel: value.nivel,
-            ativo: true
-          }
-          res.json(req.session.usuario)
-        })
+    if(req.body){
+      var userReq = req.body;
+      var user = new Usuario();
+      Usuario.find({'login': userReq.login}).where( 'senha', userReq.senha).exec( function(erro, user) {
+          if (user) {
+            user.forEach(function(value){
+            req.session.usuario = {
+              id: value._id,
+              login: value.login,
+              email: value.email,
+              nivel: value.nivel,
+              ativo: true
+            }
+            res.json(req.session.usuario)
+            res.render("index")
+          })
+      }
+    })
     }
-  })
-}
+  }
 
   controller.obterUsuario = function(req, res){
     Usuario.find({}).where().exec(function(erro, sucess){
@@ -147,6 +150,7 @@ module.exports = function(app){
   controller.destruirSession = function(req, res){
     console.log("Saiu");
     req.session.destroy();
+    res.redirect("/");
   }
 
 

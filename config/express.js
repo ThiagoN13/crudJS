@@ -21,8 +21,6 @@ module.exports = function(){
 
   // setando a porta do servidor
   app.set("port", 3000);
-  app.set("views", "./public");
-  app.set("view engine", "html");
   app.use(express.static("./public"));
 
   app.use(bodyParser.urlencoded({extended:true}));

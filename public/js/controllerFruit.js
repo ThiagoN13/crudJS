@@ -1,3 +1,9 @@
+// fix issue for Unhandled Rejections
+angular.module('app')
+  .config(['$qProvider', function($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+  }]);
+  
 var app = angular.module('app');
 
 app.controller("listController", function($routeParams, $scope, $resource, $location){

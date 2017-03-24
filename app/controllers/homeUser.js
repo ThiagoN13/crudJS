@@ -76,7 +76,6 @@ module.exports = function(app){
               ativo: true
             }
             res.json(req.session.usuario)
-            res.render("index")
           })
       }
     })

@@ -1,3 +1,8 @@
+<style type="text/css">
+    #draggablePanelList .panel-heading {
+        cursor: move;
+    }
+</style>
 <div class="col-xs-6">
   <button class="btn btn-danger" ng-click="deleteSelect(fruits);" ng-disabled="fruits.length <= 0">Excluir selecionados</button>
 </div>
@@ -17,9 +22,10 @@
 
 <div ng-include="'./html/form.html'"></div>
 
-<table class="table table-hover">
+<table class="table table-hover" id="draggablePanelList">
   <thead>
     <tr>
+      <div class="panel-heading">You can drag this panel.</div>
       <th class="text-center" ><input type="checkbox" ng-model="selecionartodos" ng-disabled="fruits.length <= 0"/></th>
       <th class="text-center col-sm-5">Nome da Fruta</th>
       <th class="text-center" ng-if="status">Preço</th>

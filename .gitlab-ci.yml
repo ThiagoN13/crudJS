@@ -3,3 +3,4 @@ image: node:latest
 build: 
   script: 
     - npm install
+    - node node-server.js

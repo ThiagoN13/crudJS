@@ -6,6 +6,5 @@ services:
 
 build: 
   script: 
-    - docker run mongo
     - npm install
     - node node-server.js

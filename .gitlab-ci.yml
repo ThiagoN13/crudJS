@@ -1,0 +1,5 @@
+image: node:latest
+
+build: 
+  script: 
+    - npm install

@@ -1,5 +1,9 @@
 image: node:latest
 
+
+services:
+  - mongo:latest
+
 build: 
   script: 
     - npm install

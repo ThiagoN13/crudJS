@@ -5,6 +5,7 @@ services:
   - node:latest
 
 build: 
-  script: 
+  script:
+    - docker run -dt mongo
     - npm install
     - node node-server.js

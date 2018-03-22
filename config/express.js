@@ -5,7 +5,7 @@ var session = require('express-session');
 var cookie = require('cookie-parser');
 
 
-require('./database.js')('mongodb://localhost/fruteira');
+require('./database.js')('mongodb://bd99540d3b5e/fruteira');
 
 module.exports = function(){
   var app = express();

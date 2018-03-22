@@ -23,6 +23,6 @@
     "express": "^4.8.8",
     "express-load": "latest",
     "express-session": "latest",
-    "mongoose": "^4.8.4"
+    "mongoose": "4.8.4"
   }
 }

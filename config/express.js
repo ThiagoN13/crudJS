@@ -1,34 +1,34 @@
-var express = require('express');
-var load = require("express-load");
-var bodyParser = require("body-parser");
-var session = require('express-session');
-var cookie = require('cookie-parser');
+var express = require('express')
+var load = require('express-load')
+var bodyParser = require('body-parser')
+var session = require('express-session')
+var cookie = require('cookie-parser')
 
-require('./database.js')(`mongodb:///127.0.0.1:27017/fruteira`);
+require('./database.js')(`mongodb://localhost:27017/fruteira`)
 
-module.exports = function(){
-  var app = express();
+module.exports = function () {
+  var app = express()
 
   // Iniciando sessao em construcao
-  app.use(cookie());
+  app.use(cookie())
   app.use(session({
-      name: 'fruit',
-      secret: 'fruit_pass',
-      resave: false,
-      saveUninitialized: false
-  }));
+    name: 'fruit',
+    secret: 'fruit_pass',
+    resave: false,
+    saveUninitialized: false
+  }))
 
   // setando a porta do servidor
-  app.set("port", 3000);
-  app.use(express.static("./public"));
+  app.set('port', 3000)
+  app.use(express.static('./public'))
 
-  app.use(bodyParser.urlencoded({extended:true}));
-  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}))
+  app.use(bodyParser.json())
 
   load('models', {cwd: 'app'})
-  .then('controllers')
-  .then('routes')
-  .into(app);
+    .then('controllers')
+    .then('routes')
+    .into(app)
 
-  return app;
-};
+  return app
+}

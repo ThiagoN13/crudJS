@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var session = require('express-session');
 var cookie = require('cookie-parser');
 
-require('./database.js')(`mongodb://${process.env.MONGO_PORT_27017_TCP_ADDR}/fruteira`);
+require('./database.js')(`mongodb://${process.env.MONGO_PORT_27017_TCP_ADDR}:27017/fruteira`);
 
 module.exports = function(){
   var app = express();

@@ -4,6 +4,7 @@
   "description": "Crud feito em nodeJs",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "build": "npm install && cd ./public && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,5 +27,8 @@
     "express-session": "latest",
     "install": "^0.10.4",
     "mongoose": "4.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
   }
 }

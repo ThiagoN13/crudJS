@@ -15,8 +15,11 @@
 
 * Instale as dependencias
 
-> npm install
+> npm run build
 
+* Rodar projeto
+
+> node index.js
 
 ## Descrição do projeto
 

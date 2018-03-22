@@ -1,10 +1,9 @@
 image: node:latest
 
-
 services:
   - mongo:latest
 
 build: 
-  script: 
+  script:
     - npm install
     - node node-server.js

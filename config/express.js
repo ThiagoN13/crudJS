@@ -4,7 +4,9 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 var cookie = require('cookie-parser')
 
-require('./database.js')(`mongodb://localhost:27017/fruteira`)
+const dbConect = require('./database.js')
+
+dbConect(`mongodb://mongo:27017/fruteira`)
 
 module.exports = function () {
   var app = express()
